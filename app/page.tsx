@@ -28,8 +28,10 @@ export default function Home() {
     <>
       <style jsx global>{`
         ${hasStarted ? `
-          * {
-            cursor: none !important;
+          @media (min-width: 768px) {
+            * {
+              cursor: none !important;
+            }
           }
         ` : ''}
         html {

@@ -5,8 +5,23 @@ import { useEffect, useState } from 'react'
 export default function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    // Detect if device is mobile/touch device
+    const checkMobile = () => {
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                     ('ontouchstart' in window) ||
+                     (window.innerWidth < 768)
+      setIsMobile(mobile)
+      if (mobile) {
+        console.log('📱 Mobile device detected - cursor hidden')
+      }
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+
     console.log('✅ CustomCursor montato!')
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -36,8 +51,14 @@ export default function CustomCursor() {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseover', handleMouseEnter)
+      window.removeEventListener('resize', checkMobile)
     }
   }, [])
+
+  // Don't render cursor on mobile devices
+  if (isMobile) {
+    return null
+  }
 
   return (
     <>

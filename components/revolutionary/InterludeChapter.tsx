@@ -657,6 +657,38 @@ export default function InterludeChapter({
                   </p>
                 )}
 
+                {/* Mobile Scroll Indicator - VISIBLE ONLY ON MOBILE */}
+                {isMobile && (
+                  <motion.div
+                    className="flex flex-col items-center gap-3 mt-8 mb-4"
+                    animate={{
+                      y: [0, 10, 0],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <div className="text-amber-900/70 text-sm font-light tracking-wide" style={{ fontFamily: 'Georgia, serif' }}>
+                      Scorri per continuare
+                    </div>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      className="text-amber-900/70"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </motion.div>
+                )}
+
                 {/* Linea decorativa minimalista */}
                 <div className="h-[1px] w-32 bg-amber-800/40 mx-auto mt-16" />
 
