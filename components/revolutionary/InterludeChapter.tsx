@@ -622,22 +622,22 @@ export default function InterludeChapter({
                 }}
               >
                 {/* Numero romano minimalista */}
-                <div className="mb-8 md:mb-16">
-                  <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-amber-900/30" style={{ fontFamily: 'Georgia, serif' }}>
+                <div className="mb-6 sm:mb-8 md:mb-12 lg:mb-16">
+                  <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-amber-900/30" style={{ fontFamily: 'Georgia, serif' }}>
                     {bookNumber}
                   </div>
                 </div>
 
                 {/* Linea decorativa minimalista */}
-                <div className="h-[1px] w-24 sm:w-32 bg-amber-800/40 mx-auto mb-8 md:mb-16" />
+                <div className="h-[1px] w-16 sm:w-24 md:w-32 bg-amber-800/40 mx-auto mb-6 sm:mb-8 md:mb-12 lg:mb-16" />
 
                 {/* Titolo principale - pulito e leggibile */}
                 <h2
-                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light mb-8 md:mb-12 leading-tight tracking-wide px-2 sm:px-4"
+                  className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light mb-6 sm:mb-8 md:mb-10 lg:mb-12 leading-tight tracking-wide px-3 sm:px-4"
                   style={{
                     fontFamily: 'Georgia, "Times New Roman", serif',
                     color: '#1a0f0a',
-                    letterSpacing: '0.08em'
+                    letterSpacing: '0.06em'
                   }}
                 >
                   {title}
@@ -702,22 +702,22 @@ export default function InterludeChapter({
               </div>
             ) : (
               <div
-                className="relative flex flex-col items-center justify-center h-full px-16 py-20 z-10"
+                className="relative flex flex-col items-center justify-center h-full px-4 sm:px-6 md:px-10 lg:px-16 py-8 sm:py-12 md:py-16 lg:py-20 z-10"
                 style={{
                   opacity: isFocused ? 1 : 0.7,
                   transition: 'opacity 0.8s'
                 }}
               >
                 {/* Linea superiore minimalista */}
-                <div className="h-[1px] w-24 bg-amber-800/40 mb-16" />
+                <div className="h-[1px] w-16 sm:w-20 md:w-24 bg-amber-800/40 mb-8 sm:mb-12 md:mb-16" />
 
                 {/* Titolo principale - minimalista e leggibile */}
                 <h3
-                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light text-center mb-8 md:mb-16 leading-tight tracking-wide px-2"
+                  className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-light text-center mb-6 sm:mb-8 md:mb-12 lg:mb-16 leading-tight tracking-wide px-2 sm:px-3"
                   style={{
                     fontFamily: 'Georgia, "Times New Roman", serif',
                     color: '#2C1810',
-                    letterSpacing: '0.1em',
+                    letterSpacing: '0.08em',
                     opacity: 1
                   }}
                 >
@@ -813,15 +813,11 @@ export default function InterludeChapter({
 
                 {/* Video/Immagini con cornici fiabesche */}
                 <div
-                  className="absolute inset-0 flex flex-col items-center justify-center z-10 gap-4"
+                  className="absolute inset-0 flex flex-col items-center justify-center z-10 gap-2 sm:gap-3 md:gap-4 px-4 sm:px-8 md:px-12 lg:px-14 py-4 sm:py-6 md:py-8"
                   style={{
                     overflow: magicallyFloating[index] ? 'visible' : 'hidden',
                     opacity: isFocused ? 1 : 0.6,
-                    transition: 'opacity 1.2s',
-                    paddingLeft: '3.5rem',
-                    paddingRight: '4rem',
-                    paddingTop: '2rem',
-                    paddingBottom: '2rem'
+                    transition: 'opacity 1.2s'
                   }}
                 >
                   {mediaItem.type === 'video-group' && mediaItem.videos ? (
@@ -882,13 +878,12 @@ export default function InterludeChapter({
                           {/* CORNICE FIABESCA STILE SHREK */}
                           <div className="relative w-full h-full">
                             {/* Cornice esterna dorata con decorazioni */}
-                            <div className="absolute inset-0 rounded-2xl" style={{
+                            <div className="absolute inset-0 rounded-xl sm:rounded-2xl p-1.5 sm:p-2 md:p-2.5" style={{
                               background: 'linear-gradient(145deg, #D4AF37 0%, #FFD700 25%, #DAA520 50%, #B8860B 75%, #8B6914 100%)',
-                              padding: '8px',
-                              boxShadow: '0 8px 32px rgba(139, 69, 19, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.5)'
+                              boxShadow: '0 4px 16px rgba(139, 69, 19, 0.5), 0 8px 32px rgba(139, 69, 19, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.5)'
                             }}>
                               {/* Decorazioni angolari fiabesche */}
-                              <div className="absolute top-1 left-1 w-12 h-12">
+                              <div className="absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12">
                                 <svg viewBox="0 0 50 50" className="w-full h-full">
                                   <path d="M5,5 Q15,5 20,10 Q25,15 25,25" stroke="#8B4513" strokeWidth="2" fill="none" />
                                   <path d="M5,5 Q5,15 10,20 Q15,25 25,25" stroke="#8B4513" strokeWidth="2" fill="none" />
@@ -896,7 +891,7 @@ export default function InterludeChapter({
                                   <circle cx="12" cy="12" r="3" fill="#FFD700" />
                                 </svg>
                               </div>
-                              <div className="absolute top-1 right-1 w-12 h-12 transform scale-x-[-1]">
+                              <div className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 transform scale-x-[-1]">
                                 <svg viewBox="0 0 50 50" className="w-full h-full">
                                   <path d="M5,5 Q15,5 20,10 Q25,15 25,25" stroke="#8B4513" strokeWidth="2" fill="none" />
                                   <path d="M5,5 Q5,15 10,20 Q15,25 25,25" stroke="#8B4513" strokeWidth="2" fill="none" />
@@ -904,7 +899,7 @@ export default function InterludeChapter({
                                   <circle cx="12" cy="12" r="3" fill="#FFD700" />
                                 </svg>
                               </div>
-                              <div className="absolute bottom-1 left-1 w-12 h-12 transform scale-y-[-1]">
+                              <div className="absolute bottom-0.5 left-0.5 sm:bottom-1 sm:left-1 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 transform scale-y-[-1]">
                                 <svg viewBox="0 0 50 50" className="w-full h-full">
                                   <path d="M5,5 Q15,5 20,10 Q25,15 25,25" stroke="#8B4513" strokeWidth="2" fill="none" />
                                   <path d="M5,5 Q5,15 10,20 Q15,25 25,25" stroke="#8B4513" strokeWidth="2" fill="none" />
@@ -912,7 +907,7 @@ export default function InterludeChapter({
                                   <circle cx="12" cy="12" r="3" fill="#FFD700" />
                                 </svg>
                               </div>
-                              <div className="absolute bottom-1 right-1 w-12 h-12 transform scale-[-1]">
+                              <div className="absolute bottom-0.5 right-0.5 sm:bottom-1 sm:right-1 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 transform scale-[-1]">
                                 <svg viewBox="0 0 50 50" className="w-full h-full">
                                   <path d="M5,5 Q15,5 20,10 Q25,15 25,25" stroke="#8B4513" strokeWidth="2" fill="none" />
                                   <path d="M5,5 Q5,15 10,20 Q15,25 25,25" stroke="#8B4513" strokeWidth="2" fill="none" />
@@ -922,11 +917,10 @@ export default function InterludeChapter({
                               </div>
 
                               {/* Cornice interna con texture legno */}
-                              <div className="relative w-full h-full rounded-xl" style={{
+                              <div className="relative w-full h-full rounded-lg sm:rounded-xl p-0.5 sm:p-1" style={{
                                 overflow: isFloating ? 'visible' : 'hidden',
                                 background: 'linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%)',
-                                padding: '4px',
-                                boxShadow: 'inset 0 2px 8px rgba(0, 0, 0, 0.5)'
+                                boxShadow: 'inset 0 1px 4px rgba(0, 0, 0, 0.5), inset 0 2px 8px rgba(0, 0, 0, 0.4)'
                               }}>
                                 {/* Video */}
                                 <div

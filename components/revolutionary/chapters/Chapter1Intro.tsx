@@ -99,15 +99,15 @@ export default function Chapter1Intro() {
       <div className="film-grain absolute inset-0 z-[3] opacity-30" />
 
       {/* Main Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto py-16">
+      <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto py-12 sm:py-16">
         {/* Logo Ridotto */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-12 flex justify-center"
+          className="mb-8 sm:mb-10 md:mb-12 flex justify-center"
         >
-          <div className="relative w-32 h-32">
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32">
             {/* Subtle Glow */}
             <motion.div
               animate={{
@@ -161,13 +161,13 @@ export default function Chapter1Intro() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-6"
+          className="mb-4 sm:mb-6 px-2"
         >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-tight leading-none">
-            <span className="block text-white/95 mb-2">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight leading-none">
+            <span className="block text-white/95 mb-1 sm:mb-2">
               C'ERA UNA VOLTA
             </span>
-            <span className="block text-white/50 text-3xl md:text-5xl lg:text-6xl font-thin italic">
+            <span className="block text-white/50 text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-thin italic">
               e c'è ancora
             </span>
           </h1>
