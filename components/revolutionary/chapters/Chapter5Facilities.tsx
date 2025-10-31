@@ -4,53 +4,13 @@ import { motion } from 'framer-motion'
 import { MdSpa } from 'react-icons/md'
 import { FaDumbbell, FaUtensils } from 'react-icons/fa'
 import { HiOfficeBuilding } from 'react-icons/hi'
-import { useEffect, useRef } from 'react'
 import { useVoiceoverFilter } from '@/hooks/useVoiceoverFilter'
+import { useChapterAudio } from '@/hooks/useChapterAudio'
+import PlayButton from '@/components/revolutionary/PlayButton'
 
 export default function Chapter5Facilities() {
-  const audioRef = useRef<HTMLAudioElement>(null)
-  const sectionRef = useRef<HTMLElement>(null)
-
-  // Applica filtro passa-alto per ridurre i bassi
+  const { audioRef, sectionRef, showPlayButton, handlePlayAudio } = useChapterAudio('/audio/Chapter_5.mp3')
   useVoiceoverFilter(audioRef)
-
-  useEffect(() => {
-    const handleAudioPlay = () => { window.dispatchEvent(new Event('voiceStart')) }
-    const handleAudioEnded = () => { window.dispatchEvent(new Event('voiceEnd')) }
-    const handleAudioPause = () => { window.dispatchEvent(new Event('voiceEnd')) }
-
-    const audio = audioRef.current
-    if (audio) {
-      audio.addEventListener('play', handleAudioPlay)
-      audio.addEventListener('ended', handleAudioEnded)
-      audio.addEventListener('pause', handleAudioPause)
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && audioRef.current) {
-            audioRef.current.play().catch(error => { console.log('Audio autoplay prevented:', error) })
-          } else if (!entry.isIntersecting && audioRef.current) {
-            audioRef.current.pause()
-            audioRef.current.currentTime = 0
-          }
-        })
-      },
-      { threshold: 0.5 }
-    )
-
-    if (sectionRef.current) { observer.observe(sectionRef.current) }
-
-    return () => {
-      if (audio) {
-        audio.removeEventListener('play', handleAudioPlay)
-        audio.removeEventListener('ended', handleAudioEnded)
-        audio.removeEventListener('pause', handleAudioPause)
-      }
-      if (sectionRef.current) { observer.unobserve(sectionRef.current) }
-    }
-  }, [])
 
   const facilities = [
     { icon: HiOfficeBuilding, title: 'CLUBHOUSE', desc: 'Spazio sociale, ristorazione, eventi privati' },
@@ -215,6 +175,7 @@ export default function Chapter5Facilities() {
 
       {/* Bottom Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/60 to-transparent z-[4]" />
+      <PlayButton show={showPlayButton} onClick={handlePlayAudio} />
     </section>
   )
 }

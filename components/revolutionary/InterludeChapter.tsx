@@ -186,7 +186,7 @@ export default function InterludeChapter({
       const timeSinceLastScroll = now - lastScrollTime.current;
 
       const current = currentBookRef.current; // Get fresh value from ref
-      const scrollDirection = e.deltaY > 0 ? 'forward' : 'backward';
+      const scrollDirection = e.deltaX > 0 ? 'forward' : 'backward';
 
       // Check boundaries FIRST with fresh ref value
       const isAtStart = current === 0 && scrollDirection === 'backward';
@@ -232,7 +232,7 @@ export default function InterludeChapter({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isInView) return;
 
-      if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      if (e.key === ' ' || e.key === 'ArrowRight') {
         e.preventDefault();
         setCurrentBook(prev => {
           if (prev < totalBooks - 1) {
@@ -241,7 +241,7 @@ export default function InterludeChapter({
           }
           return prev;
         });
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
         setCurrentBook(prev => {
           if (prev > 0) {
@@ -253,31 +253,33 @@ export default function InterludeChapter({
       }
     };
 
-    // Touch handling for mobile
-    let touchStartY = 0;
+    // Touch handling for mobile - HORIZONTAL SWIPE
+    let touchStartX = 0;
     const handleTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
       if (!isInView) return;
 
-      const touchEndY = e.changedTouches[0].clientY;
-      const diff = touchStartY - touchEndY;
+      const touchEndX = e.changedTouches[0].clientX;
+      const diff = touchStartX - touchEndX;
 
       if (Math.abs(diff) > 50) {
         if (diff > 0) {
+          // Swipe left = move forward
           setCurrentBook(prev => {
             if (prev < totalBooks - 1) {
-              console.log('👆 Touch forward:', prev, '→', prev + 1);
+              console.log('👆 Touch forward (swipe left):', prev, '→', prev + 1);
               return prev + 1;
             }
             return prev;
           });
         } else if (diff < 0) {
+          // Swipe right = move backward
           setCurrentBook(prev => {
             if (prev > 0) {
-              console.log('👆 Touch backward:', prev, '→', prev - 1);
+              console.log('👆 Touch backward (swipe right):', prev, '→', prev - 1);
               return prev - 1;
             }
             return prev;
@@ -657,12 +659,12 @@ export default function InterludeChapter({
                   </p>
                 )}
 
-                {/* Mobile Scroll Indicator - VISIBLE ONLY ON MOBILE */}
+                {/* Mobile Swipe Indicator - VISIBLE ONLY ON MOBILE */}
                 {isMobile && (
                   <motion.div
-                    className="flex flex-col items-center gap-3 mt-8 mb-4"
+                    className="flex flex-row items-center gap-3 mt-8 mb-4"
                     animate={{
-                      y: [0, 10, 0],
+                      x: [0, 10, 0],
                     }}
                     transition={{
                       duration: 1.5,
@@ -671,7 +673,7 @@ export default function InterludeChapter({
                     }}
                   >
                     <div className="text-amber-900/70 text-sm font-light tracking-wide" style={{ fontFamily: 'Georgia, serif' }}>
-                      Scorri per continuare
+                      Swipe per continuare
                     </div>
                     <svg
                       width="24"
@@ -684,7 +686,7 @@ export default function InterludeChapter({
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <polyline points="6 9 12 15 18 9"></polyline>
+                      <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
                   </motion.div>
                 )}
@@ -1918,7 +1920,7 @@ export default function InterludeChapter({
           {safeCurrentBook + 1} / {totalBooks}
         </p>
         <p className="text-xs text-amber-200/50 mt-2 italic">
-          Scorri per continuare il viaggio
+          Scorri lateralmente per continuare il viaggio
         </p>
       </motion.div>
 

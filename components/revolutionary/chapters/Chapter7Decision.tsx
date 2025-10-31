@@ -1,73 +1,22 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { HiArrowRight, HiDownload } from 'react-icons/hi'
 import { FaApple, FaAndroid } from 'react-icons/fa'
 import Image from 'next/image'
 import { useVoiceoverFilter } from '@/hooks/useVoiceoverFilter'
+import { useChapterAudio } from '@/hooks/useChapterAudio'
+import PlayButton from '@/components/revolutionary/PlayButton'
 import FairyTaleContractPages from '../FairyTaleContractPages'
 
 export default function Chapter7Decision() {
   const [isRevealed, setIsRevealed] = useState(false)
   const [isFormSubmitted, setIsFormSubmitted] = useState(false)
-  const audioRef = useRef<HTMLAudioElement>(null)
-  const sectionRef = useRef<HTMLElement>(null)
+  const { audioRef, sectionRef, showPlayButton, handlePlayAudio } = useChapterAudio('/audio/Chapter_7.mp3?v=2')
 
   // Applica filtro passa-alto per ridurre i bassi
   useVoiceoverFilter(audioRef)
-
-  useEffect(() => {
-    const handleAudioPlay = () => {
-      window.dispatchEvent(new Event('voiceStart'))
-    }
-
-    const handleAudioEnded = () => {
-      window.dispatchEvent(new Event('voiceEnd'))
-    }
-
-    const handleAudioPause = () => {
-      window.dispatchEvent(new Event('voiceEnd'))
-    }
-
-    const audio = audioRef.current
-    if (audio) {
-      audio.addEventListener('play', handleAudioPlay)
-      audio.addEventListener('ended', handleAudioEnded)
-      audio.addEventListener('pause', handleAudioPause)
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && audioRef.current) {
-            audioRef.current.play().catch(error => {
-              console.log('Audio autoplay prevented:', error)
-            })
-          } else if (!entry.isIntersecting && audioRef.current) {
-            audioRef.current.pause()
-            audioRef.current.currentTime = 0
-          }
-        })
-      },
-      { threshold: 0.5 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => {
-      if (audio) {
-        audio.removeEventListener('play', handleAudioPlay)
-        audio.removeEventListener('ended', handleAudioEnded)
-        audio.removeEventListener('pause', handleAudioPause)
-      }
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current)
-      }
-    }
-  }, [])
 
   // Blocca lo scroll della pagina quando il contratto è aperto
   useEffect(() => {
@@ -360,6 +309,7 @@ export default function Chapter7Decision() {
 
       {/* Bottom Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/60 to-transparent z-[4]" />
+      <PlayButton show={showPlayButton} onClick={handlePlayAudio} />
     </section>
   )
 }
