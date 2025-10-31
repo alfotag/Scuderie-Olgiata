@@ -13,6 +13,26 @@ export default function HorizontalScroll({ children }: HorizontalScrollProps) {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const childrenArray = Array.isArray(children) ? children : [children]
   const totalSlides = childrenArray.length
+  const touchStartX = useRef<number>(0)
+  const touchStartY = useRef<number>(0)
+
+  // Block vertical scrolling on body
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow
+    const originalPosition = window.getComputedStyle(document.body).position
+
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.width = '100%'
+    document.body.style.height = '100%'
+
+    return () => {
+      document.body.style.overflow = originalStyle
+      document.body.style.position = originalPosition
+      document.body.style.width = ''
+      document.body.style.height = ''
+    }
+  }, [])
 
   useEffect(() => {
     let lastScrollTime = 0
@@ -51,12 +71,59 @@ export default function HorizontalScroll({ children }: HorizontalScrollProps) {
       setTimeout(() => setIsTransitioning(false), 1600)
     }
 
+    // Touch handlers for mobile swipe
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX.current = e.touches[0].clientX
+      touchStartY.current = e.touches[0].clientY
+    }
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (isTransitioning) return
+
+      const touchEndX = e.changedTouches[0].clientX
+      const touchEndY = e.changedTouches[0].clientY
+      const deltaX = touchStartX.current - touchEndX
+      const deltaY = touchStartY.current - touchEndY
+
+      // Only trigger if horizontal swipe is more significant than vertical
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0 && currentIndex < totalSlides - 1) {
+          // Swipe left - go to next
+          setCurrentIndex(prev => prev + 1)
+          triggerTransition()
+        } else if (deltaX < 0 && currentIndex > 0) {
+          // Swipe right - go to previous
+          setCurrentIndex(prev => prev - 1)
+          triggerTransition()
+        }
+      }
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      // Prevent vertical scrolling during horizontal swipe
+      const touchCurrentX = e.touches[0].clientX
+      const touchCurrentY = e.touches[0].clientY
+      const deltaX = Math.abs(touchStartX.current - touchCurrentX)
+      const deltaY = Math.abs(touchStartY.current - touchCurrentY)
+
+      // If horizontal movement is dominant, prevent default vertical scroll
+      if (deltaX > deltaY) {
+        e.preventDefault()
+      }
+    }
+
     window.addEventListener('wheel', handleWheel, { passive: false })
     window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
+    window.addEventListener('touchmove', handleTouchMove, { passive: false })
 
     return () => {
       window.removeEventListener('wheel', handleWheel)
       window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchend', handleTouchEnd)
+      window.removeEventListener('touchmove', handleTouchMove)
     }
   }, [currentIndex, isTransitioning, totalSlides])
 

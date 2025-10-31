@@ -1193,7 +1193,7 @@ export default function InterludeChapter({
             filter: 'brightness(0.85) contrast(1.3) saturate(1.1)'
           }}
         >
-          <source src="/video/horse-gallop-bg.mp4" type="video/mp4" />
+          <source src="/video/horse-gallop-bg-compressed.mp4" type="video/mp4" />
         </video>
         {/* Overlay scuro ridotto per vedere meglio il video */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/10 to-black/15" />
