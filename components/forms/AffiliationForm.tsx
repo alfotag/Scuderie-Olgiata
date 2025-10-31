@@ -271,24 +271,24 @@ export default function AffiliationForm() {
           </h3>
 
           {/* Download Contratto */}
-          <div className="mb-4 p-4 bg-background rounded-lg border border-gray-200">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <FileText className="w-6 h-6 text-primary" />
+          <div className="mb-4 p-3 sm:p-4 bg-background rounded-lg border border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="p-1.5 sm:p-2 bg-primary/10 rounded-lg flex-shrink-0">
+                  <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
-                <div>
-                  <p className="font-medium text-text-primary">Contratto di Affiliazione</p>
-                  <p className="text-sm text-text-secondary">Scarica e leggi il contratto completo</p>
+                <div className="min-w-0">
+                  <p className="font-medium text-text-primary text-sm sm:text-base">Contratto di Affiliazione</p>
+                  <p className="text-xs sm:text-sm text-text-secondary">Scarica e leggi il contratto completo</p>
                 </div>
               </div>
               <a
                 href="/documents/contratto-affiliazione.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                className="flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors text-sm sm:text-base whitespace-nowrap flex-shrink-0"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 Scarica PDF
               </a>
             </div>

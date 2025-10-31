@@ -2,15 +2,32 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useVoiceoverFilter } from '@/hooks/useVoiceoverFilter'
+import { HiVolumeUp, HiPlay } from 'react-icons/hi'
 
 export default function Chapter1Intro() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
+  const [showPlayButton, setShowPlayButton] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   // Applica filtro passa-alto per ridurre i bassi
   useVoiceoverFilter(audioRef)
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                     ('ontouchstart' in window) ||
+                     (window.innerWidth < 768)
+      setIsMobile(mobile)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const handleAudioPlay = () => {
@@ -40,14 +57,22 @@ export default function Chapter1Intro() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && audioRef.current) {
-            // Prova a far partire l'audio quando il capitolo entra nel viewport
-            audioRef.current.play().catch(error => {
-              console.log('Audio autoplay prevented:', error)
-            })
+            // Su mobile, mostra il bottone play invece di autoplay
+            if (isMobile && !isPlaying) {
+              setShowPlayButton(true)
+            } else if (!isMobile) {
+              // Su desktop, prova autoplay
+              audioRef.current.play().catch(error => {
+                console.log('Audio autoplay prevented:', error)
+                setShowPlayButton(true) // Mostra bottone anche su desktop se autoplay fallisce
+              })
+            }
           } else if (!entry.isIntersecting && audioRef.current) {
             // Ferma l'audio quando il capitolo esce dal viewport
             audioRef.current.pause()
             audioRef.current.currentTime = 0
+            setIsPlaying(false)
+            setShowPlayButton(false)
           }
         })
       },
@@ -68,7 +93,21 @@ export default function Chapter1Intro() {
         observer.unobserve(sectionRef.current)
       }
     }
-  }, [])
+  }, [isMobile, isPlaying])
+
+  const handlePlayAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true)
+          setShowPlayButton(false)
+          console.log('✅ Audio started by user interaction')
+        })
+        .catch(error => {
+          console.error('Error playing audio:', error)
+        })
+    }
+  }
 
   return (
     <section ref={sectionRef} className="min-w-screen h-screen flex items-center justify-center relative overflow-hidden bg-black">
@@ -226,6 +265,20 @@ export default function Chapter1Intro() {
 
       {/* Subtle Bottom Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-[4]" />
+
+      {/* Mobile Play Button */}
+      {showPlayButton && (
+        <motion.button
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0, opacity: 0 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={handlePlayAudio}
+          className="fixed bottom-8 right-8 z-[999] w-16 h-16 rounded-full bg-amber-500 hover:bg-amber-600 text-white shadow-2xl flex items-center justify-center"
+        >
+          <HiPlay className="w-8 h-8 ml-1" />
+        </motion.button>
+      )}
     </section>
   )
 }

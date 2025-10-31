@@ -837,18 +837,18 @@ export default function InterludeChapter({
                             flex: `1 1 ${100 / mediaItem.videos!.length}%`,
                             maxHeight: `${100 / mediaItem.videos!.length - 2}%`,
                             position: 'relative',
-                            zIndex: isFloating ? 999999 : 1, // z-index massimo per stare sopra TUTTO quando flotta
-                            filter: isFloating
+                            zIndex: isFloating ? (isMobile ? 100 : 999999) : 1, // z-index ridotto su mobile
+                            filter: isFloating && !isMobile
                               ? 'drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.3))'
                               : 'none',
-                            willChange: isFloating ? 'transform' : 'auto', // Ottimizzazione per animazioni fluide
+                            willChange: 'auto', // Rimuoviamo will-change per evitare sfarfallii
                           }}
-                          animate={isFloating ? {
-                            // 🪄 ANIMAZIONE MAGICA ELEGANTE - Movimento raffinato e discreto
+                          animate={isFloating && !isMobile ? {
+                            // 🪄 ANIMAZIONE MAGICA ELEGANTE - Disabilitata su mobile per performance
                             scale: [1, 1.7, 1.7, 1.7, 1],
                             x: [0, xOffset * 0.3, xOffset, xOffset, 0],
                             y: [0, -30, -70, -70, 0],
-                            z: [0, 100, 500, 500, 0], // z più alto per stare davvero sopra tutto
+                            z: [0, 100, 500, 500, 0],
                             rotateY: [0, direction * 1.5, direction * 2.5, direction * 2.5, 0],
                             rotateX: [0, -1, -2, -2, 0],
                             rotateZ: [0, -direction * 0.8, -direction * 1.2, -direction * 1.2, 0],
@@ -1009,18 +1009,18 @@ export default function InterludeChapter({
                           style={{
                             overflow: isFloating ? 'visible' : 'hidden',
                             position: 'relative',
-                            zIndex: isFloating ? 999999 : 1, // z-index massimo per stare sopra TUTTO quando flotta
-                            filter: isFloating
+                            zIndex: isFloating ? (isMobile ? 100 : 999999) : 1, // z-index ridotto su mobile
+                            filter: isFloating && !isMobile
                               ? 'drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.3))'
                               : 'none',
-                            willChange: isFloating ? 'transform' : 'auto', // Ottimizzazione per animazioni fluide
+                            willChange: 'auto', // Rimuoviamo will-change per evitare sfarfallii
                           }}
-                          animate={isFloating ? {
-                            // 🪄 ANIMAZIONE MAGICA ELEGANTE - Immagine singola che galleggia delicatamente
+                          animate={isFloating && !isMobile ? {
+                            // 🪄 ANIMAZIONE MAGICA ELEGANTE - Disabilitata su mobile per performance
                             scale: [1, 1.8, 1.8, 1.8, 1],
                             x: [0, 0, 0, 0, 0],
                             y: [0, -50, -100, -100, 0],
-                            z: [0, 150, 550, 550, 0], // z più alto per stare davvero sopra tutto
+                            z: [0, 150, 550, 550, 0],
                             rotateY: [0, 2, -2, 2, 0],
                             rotateX: [0, -1, 1, -1, 0],
                             rotateZ: [0, -0.5, 0.5, -0.5, 0],
