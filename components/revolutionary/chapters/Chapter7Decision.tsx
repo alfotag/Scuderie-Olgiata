@@ -181,7 +181,7 @@ export default function Chapter7Decision() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.8 }}
-            className="relative z-10 px-4 md:px-8 w-full flex items-center justify-center"
+            className="relative z-10 px-4 md:px-8 w-full h-screen flex items-center justify-center overflow-y-auto py-8"
           >
             <FairyTaleContractPages
               onSubmit={(formData) => {

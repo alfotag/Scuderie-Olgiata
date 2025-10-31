@@ -340,7 +340,7 @@ export default function InterludeChapter({
 
   // 📚 LIBRI IN LINEA ORIZZONTALE - Disposizione cinematografica semplice
   // Come libri su un tavolo lungo, camera dolly che scorre lateralmente
-  const BOOK_SPACING = isMobile ? 500 : 1800; // Responsive: spazio ridotto su mobile
+  const BOOK_SPACING = isMobile ? 550 : 1800; // Responsive: spazio ottimizzato su mobile
 
   const bookPositions = [
     // Libro titolo al centro
@@ -448,8 +448,8 @@ export default function InterludeChapter({
     const opacity = isFocused ? 1 : Math.max(0.25, 0.9 - distanceFromFocus * 0.18);
 
     // 📱 DIMENSIONI RESPONSIVE DEL LIBRO
-    const bookWidth = isMobile ? 320 : 1100; // Ridotto per mobile (85% di 375px screen width)
-    const bookHeight = isMobile ? 180 : 700; // 16:9 ratio mantenuto
+    const bookWidth = isMobile ? 350 : 1100; // Ottimizzato per mobile (~93% di 375px screen width)
+    const bookHeight = isMobile ? 197 : 700; // 16:9 ratio mantenuto
 
     return (
         <motion.div
@@ -569,9 +569,7 @@ export default function InterludeChapter({
               <>
                 {/* Cavallo al galoppo - angolo in alto a sinistra */}
                 <svg
-                  className="absolute top-8 left-6 opacity-30"
-                  width="120"
-                  height="100"
+                  className="absolute top-8 left-6 opacity-30 w-16 h-14 md:w-[120px] md:h-[100px]"
                   viewBox="0 0 120 100"
                 >
                   <path
@@ -586,9 +584,7 @@ export default function InterludeChapter({
 
                 {/* Testa di cavallo - angolo in alto a destra */}
                 <svg
-                  className="absolute top-10 right-8 opacity-25"
-                  width="80"
-                  height="100"
+                  className="absolute top-10 right-8 opacity-25 w-12 h-14 md:w-[80px] md:h-[100px]"
                   viewBox="0 0 80 100"
                 >
                   <path
@@ -603,9 +599,7 @@ export default function InterludeChapter({
 
                 {/* Ferro di cavallo - angolo in basso a sinistra */}
                 <svg
-                  className="absolute bottom-12 left-8 opacity-20"
-                  width="60"
-                  height="60"
+                  className="absolute bottom-12 left-8 opacity-20 w-10 h-10 md:w-[60px] md:h-[60px]"
                   viewBox="0 0 60 60"
                 >
                   <path
@@ -620,9 +614,7 @@ export default function InterludeChapter({
 
                 {/* Decorazione floreale - angolo in basso a destra */}
                 <svg
-                  className="absolute bottom-8 right-6 opacity-20"
-                  width="70"
-                  height="70"
+                  className="absolute bottom-8 right-6 opacity-20 w-10 h-10 md:w-[70px] md:h-[70px]"
                   viewBox="0 0 70 70"
                 >
                   <path

@@ -49,9 +49,8 @@ export function useChapterAudio(audioSrc: string) {
             console.log('📍 Chapter visible, isMobile:', isMobile, 'isPlaying:', audioRef.current.paused)
             // Su mobile, mostra sempre il bottone play
             if (isMobile) {
-              if (audioRef.current.paused) {
-                setShowPlayButton(true)
-              }
+              setShowPlayButton(true)
+              console.log('🎵 Play button shown for mobile')
             } else {
               // Su desktop, prova autoplay
               audioRef.current.play().catch(error => {
@@ -61,14 +60,17 @@ export function useChapterAudio(audioSrc: string) {
             }
           } else if (!entry.isIntersecting && audioRef.current) {
             // Ferma l'audio quando il capitolo esce dal viewport
-            audioRef.current.pause()
-            audioRef.current.currentTime = 0
+            if (!audioRef.current.paused) {
+              audioRef.current.pause()
+              audioRef.current.currentTime = 0
+              console.log('⏹️ Audio stopped - chapter out of view')
+            }
             setIsPlaying(false)
             setShowPlayButton(false)
           }
         })
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     )
 
     if (sectionRef.current) {
