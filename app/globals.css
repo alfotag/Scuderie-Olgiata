@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+@theme {
+  /* PRIMARY - Royal Blue (Fiducia, Stabilità, Eleganza) */
+  --color-primary: #2C5F8D;
+  --color-primary-dark: #1A3A5C;
+  --color-primary-light: #4A7FB8;
+
+  /* SECONDARY - Warm Gold (Prestigio, Eccellenza) */
+  --color-secondary: #D4AF37;
+  --color-secondary-dark: #B8941F;
+  --color-secondary-light: #E5C158;
+
+  /* BACKGROUNDS */
+  --color-background: #F8F9FA;
+  --color-surface: #FFFFFF;
+
+  /* TEXT */
+  --color-text-primary: #1C1C1E;
+  --color-text-secondary: #6C6C70;
+  --color-text-tertiary: #8E8E93;
+
+  /* SEMANTIC */
+  --color-success: #2EAA5F;
+  --color-warning: #E5A84B;
+  --color-error: #D94A4A;
+  --color-info: #4A7FB8;
+
+  /* ACCENTS */
+  --color-purple: #7B68A6;
+  --color-pink: #D87093;
+
+  /* FONT FAMILIES */
+  --font-family-heading: 'Poppins', sans-serif;
+  --font-family-body: 'Nunito', sans-serif;
+
+  /* BORDER RADIUS */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  /* SHADOWS */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-text-primary;
+    font-family: var(--font-family-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-heading);
+    @apply font-semibold;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  }
+
+  .gradient-gold {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Snap Scrolling */
+  .snap-container {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  .snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Ensure each chapter section is exactly 100vw x 100vh */
+  section.min-w-screen {
+    min-width: 100vw;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    max-height: 100vh;
+    flex-shrink: 0;
+    flex-grow: 0;
+    position: relative;
+  }
+
+  /* Debug helper - uncomment to see section boundaries */
+  /* section.min-w-screen {
+    outline: 2px solid red;
+  } */
+
+  /* Video Background Styles */
+  .video-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+    z-index: 1;
+  }
+
+  /* Cinematic Transitions */
+  .cinematic-fade {
+    animation: cinematicFade 1.5s ease-in-out;
+  }
+
+  @keyframes cinematicFade {
+    0% { opacity: 0; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  /* Film Grain Effect */
+  .film-grain {
+    position: relative;
+  }
+
+  .film-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+}

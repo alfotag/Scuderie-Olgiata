@@ -1,0 +1,16 @@
+{
+  "nome": "Alfonso",
+  "cognome": "Tagliamonte",
+  "email": "alfotag99@gmail.com",
+  "telefono": "+393349483071",
+  "codiceFiscale": "TGLLNS01L14F839H",
+  "indirizzo": "Via L.go Olgiata, 15",
+  "citta": "Roma",
+  "cap": "00123",
+  "piano": "Solo affiliazione",
+  "accettaContratto": true,
+  "id": "AFF-1761916788033-fqvj9mxut",
+  "timestamp": "2025-10-31T13:19:48.033Z",
+  "ipAddress": "::1",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+}
