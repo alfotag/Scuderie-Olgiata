@@ -260,15 +260,22 @@ export default function InterludeChapter({
       if (!isInView) return;
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
-      // Stop propagation to prevent HorizontalScroll from capturing
-      e.stopPropagation();
+      // NON blocco propagazione qui - permetto ad AudioManager di ricevere touchstart
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!isInView) return;
-      // Prevent default to stop any scrolling
-      e.preventDefault();
-      e.stopPropagation();
+
+      const touchCurrentX = e.touches[0].clientX;
+      const touchCurrentY = e.touches[0].clientY;
+      const diffX = Math.abs(touchStartX - touchCurrentX);
+      const diffY = Math.abs(touchStartY - touchCurrentY);
+
+      // Solo se swipe orizzontale è dominante, blocco scroll verticale
+      if (diffX > diffY && diffX > 10) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
@@ -279,31 +286,34 @@ export default function InterludeChapter({
       const diffX = touchStartX - touchEndX;
       const diffY = touchStartY - touchEndY;
 
-      // Only process if horizontal swipe is dominant
+      // Solo se swipe orizzontale è dominante E supera soglia
       if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-        // Stop this event from reaching HorizontalScroll
-        e.preventDefault();
-        e.stopPropagation();
+        const current = currentBookRef.current;
 
-        if (diffX > 0) {
-          // Swipe left = move forward
-          setCurrentBook(prev => {
-            if (prev < totalBooks - 1) {
+        // Verifica boundaries
+        const canMoveForward = current < totalBooks - 1;
+        const canMoveBackward = current > 0;
+        const isSwipeLeft = diffX > 0;
+        const isSwipeRight = diffX < 0;
+
+        // Solo blocco evento se effettivamente navigo tra i libri
+        if ((isSwipeLeft && canMoveForward) || (isSwipeRight && canMoveBackward)) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          if (isSwipeLeft) {
+            setCurrentBook(prev => {
               console.log('👆 Touch forward (swipe left):', prev, '→', prev + 1);
               return prev + 1;
-            }
-            return prev;
-          });
-        } else if (diffX < 0) {
-          // Swipe right = move backward
-          setCurrentBook(prev => {
-            if (prev > 0) {
+            });
+          } else {
+            setCurrentBook(prev => {
               console.log('👆 Touch backward (swipe right):', prev, '→', prev - 1);
               return prev - 1;
-            }
-            return prev;
-          });
+            });
+          }
         }
+        // Altrimenti lascio passare l'evento a HorizontalScroll per navigare ai capitoli
       }
     };
 
@@ -311,9 +321,9 @@ export default function InterludeChapter({
 
     if (section) {
       section.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-      section.addEventListener('touchstart', handleTouchStart, { passive: false, capture: true });
-      section.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true });
-      section.addEventListener('touchend', handleTouchEnd, { passive: false, capture: true });
+      section.addEventListener('touchstart', handleTouchStart, { passive: true });
+      section.addEventListener('touchmove', handleTouchMove, { passive: false });
+      section.addEventListener('touchend', handleTouchEnd, { passive: false });
     }
     document.addEventListener('keydown', handleKeyDown);
 
@@ -330,7 +340,7 @@ export default function InterludeChapter({
 
   // 📚 LIBRI IN LINEA ORIZZONTALE - Disposizione cinematografica semplice
   // Come libri su un tavolo lungo, camera dolly che scorre lateralmente
-  const BOOK_SPACING = isMobile ? 800 : 1800; // Responsive: meno spazio su mobile
+  const BOOK_SPACING = isMobile ? 500 : 1800; // Responsive: spazio ridotto su mobile
 
   const bookPositions = [
     // Libro titolo al centro
@@ -438,8 +448,8 @@ export default function InterludeChapter({
     const opacity = isFocused ? 1 : Math.max(0.25, 0.9 - distanceFromFocus * 0.18);
 
     // 📱 DIMENSIONI RESPONSIVE DEL LIBRO
-    const bookWidth = isMobile ? 540 : 1100;
-    const bookHeight = isMobile ? 304 : 700; // 16:9 su mobile, ~1.57:1 su desktop
+    const bookWidth = isMobile ? 320 : 1100; // Ridotto per mobile (85% di 375px screen width)
+    const bookHeight = isMobile ? 180 : 700; // 16:9 ratio mantenuto
 
     return (
         <motion.div

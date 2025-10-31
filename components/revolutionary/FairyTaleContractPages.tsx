@@ -133,7 +133,7 @@ export default function FairyTaleContractPages({ onSubmit }: FairyTaleContractPr
       initial={{ opacity: 0, scale: 0.9, rotateZ: -2 }}
       animate={{ opacity: 1, scale: 1, rotateZ: 0 }}
       transition={{ duration: 1, type: 'spring' }}
-      className="relative max-w-xl mx-auto w-full scale-90 md:scale-95"
+      className="relative max-w-sm md:max-w-xl mx-auto w-full px-4 md:px-0 scale-75 md:scale-95"
     >
       {/* Pergamena esterna con bordi irregolari */}
       <div
