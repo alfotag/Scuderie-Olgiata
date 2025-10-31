@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { motion } from 'framer-motion'
 import AffiliationForm from '@/components/forms/AffiliationForm'
 import { FileText } from 'lucide-react'
@@ -34,7 +35,9 @@ export default function AffilazionePage() {
       {/* Form Section */}
       <section className="py-20 bg-background">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AffiliationForm />
+          <Suspense fallback={<div className="text-center py-12">Caricamento...</div>}>
+            <AffiliationForm />
+          </Suspense>
         </div>
       </section>
 

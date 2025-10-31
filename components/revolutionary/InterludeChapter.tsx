@@ -905,7 +905,7 @@ export default function InterludeChapter({
                                   }}
                                   onClick={(e) => {
                                     console.log('📱 Video clicked!', { isMobile, index, vidIndex, src: video.src });
-                                    if (isMobile) {
+                                    if (isMobile && video.src) {
                                       e.stopPropagation();
                                       e.preventDefault();
                                       const videoData = {
@@ -1038,7 +1038,7 @@ export default function InterludeChapter({
                               style={{ cursor: isMobile ? 'pointer' : 'default' }}
                               onClick={(e) => {
                                 console.log('📱 Single video clicked!', { isMobile, index, src: mediaItem.src });
-                                if (isMobile) {
+                                if (isMobile && mediaItem.src) {
                                   e.stopPropagation();
                                   e.preventDefault();
                                   const videoData = {
