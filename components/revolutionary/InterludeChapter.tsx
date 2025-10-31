@@ -255,18 +255,37 @@ export default function InterludeChapter({
 
     // Touch handling for mobile - HORIZONTAL SWIPE
     let touchStartX = 0;
+    let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => {
+      if (!isInView) return;
       touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      // Stop propagation to prevent HorizontalScroll from capturing
+      e.stopPropagation();
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isInView) return;
+      // Prevent default to stop any scrolling
+      e.preventDefault();
+      e.stopPropagation();
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
       if (!isInView) return;
 
       const touchEndX = e.changedTouches[0].clientX;
-      const diff = touchStartX - touchEndX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchStartX - touchEndX;
+      const diffY = touchStartY - touchEndY;
 
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) {
+      // Only process if horizontal swipe is dominant
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        // Stop this event from reaching HorizontalScroll
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (diffX > 0) {
           // Swipe left = move forward
           setCurrentBook(prev => {
             if (prev < totalBooks - 1) {
@@ -275,7 +294,7 @@ export default function InterludeChapter({
             }
             return prev;
           });
-        } else if (diff < 0) {
+        } else if (diffX < 0) {
           // Swipe right = move backward
           setCurrentBook(prev => {
             if (prev > 0) {
@@ -292,8 +311,9 @@ export default function InterludeChapter({
 
     if (section) {
       section.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-      section.addEventListener('touchstart', handleTouchStart);
-      section.addEventListener('touchend', handleTouchEnd);
+      section.addEventListener('touchstart', handleTouchStart, { passive: false, capture: true });
+      section.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true });
+      section.addEventListener('touchend', handleTouchEnd, { passive: false, capture: true });
     }
     document.addEventListener('keydown', handleKeyDown);
 
@@ -301,6 +321,7 @@ export default function InterludeChapter({
       if (section) {
         section.removeEventListener('wheel', handleWheel);
         section.removeEventListener('touchstart', handleTouchStart);
+        section.removeEventListener('touchmove', handleTouchMove);
         section.removeEventListener('touchend', handleTouchEnd);
       }
       document.removeEventListener('keydown', handleKeyDown);

@@ -46,10 +46,13 @@ export function useChapterAudio(audioSrc: string) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && audioRef.current) {
-            // Su mobile, mostra il bottone play invece di autoplay
-            if (isMobile && !isPlaying) {
-              setShowPlayButton(true)
-            } else if (!isMobile) {
+            console.log('📍 Chapter visible, isMobile:', isMobile, 'isPlaying:', audioRef.current.paused)
+            // Su mobile, mostra sempre il bottone play
+            if (isMobile) {
+              if (audioRef.current.paused) {
+                setShowPlayButton(true)
+              }
+            } else {
               // Su desktop, prova autoplay
               audioRef.current.play().catch(error => {
                 console.log('Audio autoplay prevented:', error)
@@ -65,7 +68,7 @@ export function useChapterAudio(audioSrc: string) {
           }
         })
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     )
 
     if (sectionRef.current) {
