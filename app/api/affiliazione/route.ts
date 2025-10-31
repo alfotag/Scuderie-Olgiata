@@ -5,7 +5,13 @@ import path from 'path'
 import { Resend } from 'resend'
 import { generateCertificatoFES } from '@/lib/pdf/generateCertificatoFES'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy initialization di Resend per evitare errori se la chiave API non è configurata
+function getResendClient() {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY non configurata')
+  }
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 interface AffiliationData {
   nome: string
@@ -321,6 +327,7 @@ async function sendNotificationToSecretary(record: AffiliationRecord) {
       console.log('Contratto PDF allegato')
     }
 
+    const resend = getResendClient()
     const data = await resend.emails.send({
       from: process.env.EMAIL_FROM || 'Scuderie Olgiata <noreply@tagliamontestable.it>',
       to: 'segreteria@tagliamontestable.it',
@@ -489,6 +496,7 @@ async function sendConfirmationToAffiliate(record: AffiliationRecord) {
       console.log('Contratto PDF allegato per affiliato')
     }
 
+    const resend = getResendClient()
     const data = await resend.emails.send({
       from: process.env.EMAIL_FROM || 'Scuderie Olgiata <noreply@tagliamontestable.it>',
       to: record.email,
