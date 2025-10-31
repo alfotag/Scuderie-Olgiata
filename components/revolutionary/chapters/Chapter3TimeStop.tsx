@@ -40,7 +40,7 @@ export default function Chapter3TimeStop() {
       <div className="film-grain absolute inset-0 z-[3] opacity-25" />
 
       {/* Main Content */}
-      <div className="relative z-10 text-center px-8 max-w-5xl mx-auto py-16">
+      <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto py-12 sm:py-16">
         {/* Top Decorative Line */}
         <motion.div
           initial={{ scaleX: 0 }}

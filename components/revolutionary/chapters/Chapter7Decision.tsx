@@ -71,7 +71,7 @@ export default function Chapter7Decision() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="relative z-10 text-center px-8 max-w-5xl mx-auto py-16"
+            className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto py-12 sm:py-16"
           >
             {/* Top Decorative Line */}
             <motion.div
