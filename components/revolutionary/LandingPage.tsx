@@ -3,12 +3,22 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { HiVolumeUp } from 'react-icons/hi'
+import { audioUnlocker } from '@/lib/audioUnlocker'
 
 interface LandingPageProps {
   onStart: () => void
 }
 
 export default function LandingPage({ onStart }: LandingPageProps) {
+  const handleStartClick = async () => {
+    console.log('🎵 User clicked "Tocca per Iniziare" - unlocking all audio...')
+
+    // Unlock all audio elements before starting
+    await audioUnlocker.unlockAll()
+
+    // Then start the experience
+    onStart()
+  }
   return (
     <motion.div
       initial={{ opacity: 1 }}
@@ -86,7 +96,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
           transition={{ duration: 1.2, delay: 0.8 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={onStart}
+          onClick={handleStartClick}
           className="group relative w-full max-w-md mx-auto"
         >
           <div className="relative px-6 sm:px-8 md:px-10 py-4 sm:py-5 rounded-full bg-white/10 backdrop-blur-sm border border-amber-400/40 hover:border-amber-400/80 text-white transition-all duration-500">

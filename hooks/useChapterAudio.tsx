@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, RefObject } from 'react'
+import { audioUnlocker } from '@/lib/audioUnlocker'
 
 export function useChapterAudio(audioSrc: string) {
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -24,6 +25,13 @@ export function useChapterAudio(audioSrc: string) {
   }, [])
 
   useEffect(() => {
+    const audio = audioRef.current
+
+    // Register this audio element for global unlock
+    if (audio) {
+      audioUnlocker.registerAudio(audio)
+    }
+
     const handleAudioPlay = () => {
       console.log('🎵 Audio play event fired')
       window.dispatchEvent(new Event('voiceStart'))
@@ -46,7 +54,6 @@ export function useChapterAudio(audioSrc: string) {
       setIsPlaying(false)
     }
 
-    const audio = audioRef.current
     if (audio) {
       audio.addEventListener('play', handleAudioPlay)
       audio.addEventListener('ended', handleAudioEnded)
@@ -123,6 +130,8 @@ export function useChapterAudio(audioSrc: string) {
         audio.removeEventListener('play', handleAudioPlay)
         audio.removeEventListener('ended', handleAudioEnded)
         audio.removeEventListener('pause', handleAudioPause)
+        // Unregister from global unlock system
+        audioUnlocker.unregisterAudio(audio)
       }
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current)
