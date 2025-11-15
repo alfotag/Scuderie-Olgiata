@@ -61,23 +61,45 @@ export function useChapterAudio(audioSrc: string) {
 
           if (entry.isIntersecting) {
             const isMobile = isMobileRef.current
-            console.log('📍 Chapter visible, isMobile:', isMobile, 'audio paused:', audio.paused)
+            console.log('📍 Chapter visible, isMobile:', isMobile, 'audio paused:', audio.paused, 'currentTime:', audio.currentTime)
 
-            // Su mobile, mostra SEMPRE il bottone play
-            if (isMobile) {
-              setShowPlayButton(true)
-              console.log('🎵 Play button shown for mobile')
-            } else {
-              // Su desktop, prova autoplay solo se l'audio non è già stato riprodotto
-              if (audio.paused && audio.currentTime === 0) {
-                audio.play().catch(error => {
-                  console.log('⚠️ Audio autoplay prevented:', error)
-                  setShowPlayButton(true)
-                })
+            // SEMPRE prova autoplay prima (sia desktop che mobile)
+            // Dato che l'utente ha già interagito cliccando "Tocca per Iniziare"
+            if (audio.paused && audio.currentTime === 0) {
+              console.log('🎵 Attempting autoplay for chapter audio...')
+              console.log('🎵 Audio ready state:', audio.readyState, 'network state:', audio.networkState)
+
+              // Assicurati che l'audio sia caricato
+              const tryPlay = () => {
+                audio.play()
+                  .then(() => {
+                    console.log('✅ Audio autoplay SUCCESS!')
+                    setIsPlaying(true)
+                    setShowPlayButton(false)
+                  })
+                  .catch(error => {
+                    console.error('❌ Audio autoplay FAILED:', error)
+                    // Solo se l'autoplay fallisce, mostra il bottone play
+                    setShowPlayButton(true)
+                    console.log('🎵 Play button shown because autoplay failed')
+                  })
               }
+
+              // Se l'audio non è ancora caricato, aspetta che si carichi
+              if (audio.readyState < 3) {
+                console.log('⏳ Waiting for audio to load...')
+                audio.addEventListener('canplay', tryPlay, { once: true })
+                audio.load() // Forza il caricamento
+              } else {
+                tryPlay()
+              }
+            } else if (audio.paused && audio.currentTime > 0) {
+              // L'audio è stato già riprodotto in precedenza
+              console.log('🎵 Audio was previously played, showing play button')
+              setShowPlayButton(true)
             }
           } else {
-            console.log('📍 Chapter NOT visible')
+            console.log('📍 Chapter NOT visible - stopping audio')
             // Ferma l'audio quando il capitolo esce dal viewport
             if (!audio.paused) {
               audio.pause()
@@ -89,7 +111,7 @@ export function useChapterAudio(audioSrc: string) {
           }
         })
       },
-      { threshold: 0.5 }
+      { threshold: 0.2 }
     )
 
     if (sectionRef.current) {
