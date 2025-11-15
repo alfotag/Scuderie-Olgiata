@@ -29,6 +29,11 @@ export function useChapterAudio(audioSrc: string) {
 
     const handleAudioEnded = () => {
       window.dispatchEvent(new Event('voiceEnd'))
+      setIsPlaying(false)
+      // Su mobile, mostra di nuovo il bottone quando l'audio finisce
+      if (isMobile) {
+        setShowPlayButton(true)
+      }
     }
 
     const handleAudioPause = () => {
@@ -47,16 +52,20 @@ export function useChapterAudio(audioSrc: string) {
         entries.forEach((entry) => {
           if (entry.isIntersecting && audioRef.current) {
             console.log('📍 Chapter visible, isMobile:', isMobile, 'isPlaying:', audioRef.current.paused)
-            // Su mobile, mostra sempre il bottone play
+            // Su mobile, mostra sempre il bottone play se l'audio non è già in riproduzione
             if (isMobile) {
-              setShowPlayButton(true)
-              console.log('🎵 Play button shown for mobile')
-            } else {
-              // Su desktop, prova autoplay
-              audioRef.current.play().catch(error => {
-                console.log('Audio autoplay prevented:', error)
+              if (audioRef.current.paused) {
                 setShowPlayButton(true)
-              })
+                console.log('🎵 Play button shown for mobile')
+              }
+            } else {
+              // Su desktop, prova autoplay solo se l'audio non è già stato riprodotto
+              if (audioRef.current.paused && audioRef.current.currentTime === 0) {
+                audioRef.current.play().catch(error => {
+                  console.log('Audio autoplay prevented:', error)
+                  setShowPlayButton(true)
+                })
+              }
             }
           } else if (!entry.isIntersecting && audioRef.current) {
             // Ferma l'audio quando il capitolo esce dal viewport
@@ -66,11 +75,16 @@ export function useChapterAudio(audioSrc: string) {
               console.log('⏹️ Audio stopped - chapter out of view')
             }
             setIsPlaying(false)
-            setShowPlayButton(false)
+            // Su mobile, nascondi il bottone solo quando il capitolo esce dal viewport
+            if (isMobile) {
+              setShowPlayButton(false)
+            } else {
+              setShowPlayButton(false)
+            }
           }
         })
       },
-      { threshold: 0.1 }
+      { threshold: 0.3 }
     )
 
     if (sectionRef.current) {

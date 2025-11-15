@@ -1211,6 +1211,10 @@ export default function InterludeChapter({
             opacity: 0.7,
             filter: 'brightness(0.85) contrast(1.3) saturate(1.1)'
           }}
+          onError={(e) => {
+            const target = e.target as HTMLVideoElement
+            target.style.display = 'none'
+          }}
         >
           <source src="/video/horse-gallop-bg-compressed.mp4" type="video/mp4" />
         </video>

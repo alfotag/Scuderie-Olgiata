@@ -26,6 +26,10 @@ export default function Chapter3TimeStop() {
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
+        onError={(e) => {
+          const target = e.target as HTMLVideoElement
+          target.style.display = 'none'
+        }}
       >
         <source src="/video/compressed/jockey-running.mp4" type="video/mp4" />
       </video>

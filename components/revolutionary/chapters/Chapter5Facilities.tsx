@@ -33,6 +33,10 @@ export default function Chapter5Facilities() {
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
+        onError={(e) => {
+          const target = e.target as HTMLVideoElement
+          target.style.display = 'none'
+        }}
       >
         <source src="/video/compressed/aerial-view.mp4" type="video/mp4" />
       </video>
@@ -142,7 +146,7 @@ export default function Chapter5Facilities() {
               <div className="relative bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-blue-400/30 transition-all duration-500">
                 <facility.icon className="w-8 h-8 text-blue-400/70 mb-3 mx-auto" />
                 <div className="text-xs font-light text-white/90 mb-1 uppercase tracking-wider">{facility.title}</div>
-                <div className="text-[10px] text-white/50 font-light leading-tight">{facility.desc}</div>
+                <div className="text-[11px] sm:text-xs text-white/50 font-light leading-tight">{facility.desc}</div>
               </div>
             </motion.div>
           ))}

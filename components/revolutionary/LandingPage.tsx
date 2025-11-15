@@ -23,6 +23,11 @@ export default function LandingPage({ onStart }: LandingPageProps) {
         muted
         playsInline
         className="absolute inset-0 w-full h-full object-cover opacity-20"
+        onError={(e) => {
+          // Nascondi il video se non può essere caricato (es. su Vercel con Git LFS)
+          const target = e.target as HTMLVideoElement
+          target.style.display = 'none'
+        }}
       >
         <source src="/video/compressed/stable-window.mp4" type="video/mp4" />
       </video>
@@ -113,35 +118,35 @@ export default function LandingPage({ onStart }: LandingPageProps) {
           transition={{ duration: 1.2, delay: 1.2 }}
           className="mt-8 sm:mt-10 md:mt-12 space-y-4 sm:space-y-6 px-2"
         >
-          <p className="text-[11px] sm:text-xs text-white/40 font-light">
+          <p className="text-xs text-white/40 font-light">
             Attiva l'audio per la migliore esperienza
           </p>
 
           <div className="pt-4 sm:pt-6 border-t border-white/10 space-y-3 sm:space-y-4">
-            <p className="text-[10px] sm:text-xs text-amber-400/70 uppercase tracking-[0.15em] sm:tracking-[0.2em] font-light mb-2 sm:mb-3">
+            <p className="text-xs text-amber-400/70 uppercase tracking-[0.15em] sm:tracking-[0.2em] font-light mb-2 sm:mb-3">
               Come Navigare
             </p>
 
             {/* Desktop instructions */}
             <div className="hidden md:block">
               <div className="flex items-center justify-center gap-2 text-xs text-white/50 flex-wrap">
-                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded text-[11px]">Rotella Mouse</span>
+                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs">Rotella Mouse</span>
                 <span className="text-white/30">o</span>
-                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded text-[11px]">← →</span>
+                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs">← →</span>
                 <span className="text-white/40 ml-2">per sfogliare i capitoli</span>
               </div>
-              <p className="text-[10px] text-white/30 mt-3 italic px-4">
+              <p className="text-xs text-white/30 mt-3 italic px-4">
                 Lasciati guidare dalla storia magica • Ogni scroll svela un nuovo capitolo
               </p>
             </div>
 
             {/* Mobile instructions */}
             <div className="block md:hidden">
-              <div className="flex items-center justify-center gap-2 text-[11px] text-white/50 flex-wrap">
-                <span className="px-2.5 py-1 bg-white/5 border border-white/10 rounded text-[10px]">Swipe</span>
+              <div className="flex items-center justify-center gap-2 text-xs text-white/50 flex-wrap">
+                <span className="px-2.5 py-1 bg-white/5 border border-white/10 rounded text-xs">Swipe</span>
                 <span className="text-white/40">per cambiare capitolo</span>
               </div>
-              <p className="text-[9px] sm:text-[10px] text-white/30 mt-2 sm:mt-3 italic px-2">
+              <p className="text-xs text-white/30 mt-2 sm:mt-3 italic px-2">
                 Lasciati guidare dalla storia • Swipe per scoprire
               </p>
             </div>

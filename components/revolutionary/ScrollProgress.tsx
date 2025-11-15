@@ -17,7 +17,7 @@ export default function ScrollProgress() {
   const { scrollYProgress } = useScroll()
 
   return (
-    <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden xl:flex flex-col gap-6">
+    <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-6">
       {/* Progress Line */}
       <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-white/10">
         <motion.div

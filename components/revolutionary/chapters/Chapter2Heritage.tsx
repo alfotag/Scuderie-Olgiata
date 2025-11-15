@@ -26,6 +26,10 @@ export default function Chapter2Heritage() {
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
+        onError={(e) => {
+          const target = e.target as HTMLVideoElement
+          target.style.display = 'none'
+        }}
       >
         <source src="/video/compressed/stables-exit.mp4" type="video/mp4" />
       </video>

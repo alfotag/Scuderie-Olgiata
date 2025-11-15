@@ -27,6 +27,11 @@ export default function Chapter1Intro() {
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
+        onError={(e) => {
+          // Nascondi il video se non può essere caricato (es. su Vercel con Git LFS)
+          const target = e.target as HTMLVideoElement
+          target.style.display = 'none'
+        }}
       >
         <source src="/video/compressed/horse-hooves.mp4" type="video/mp4" />
       </video>

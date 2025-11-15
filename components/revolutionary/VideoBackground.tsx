@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 interface VideoBackgroundProps {
   videoSrc?: string
@@ -15,6 +16,8 @@ export default function VideoBackground({
   overlay = 'dark',
   children
 }: VideoBackgroundProps) {
+  const [videoError, setVideoError] = useState(false)
+
   const overlayStyles = {
     dark: 'bg-gradient-to-b from-black/60 via-black/50 to-black/80',
     light: 'bg-gradient-to-b from-white/20 via-white/10 to-white/30',
@@ -25,13 +28,14 @@ export default function VideoBackground({
   return (
     <div className="absolute inset-0 overflow-hidden">
       {/* Video or Image Background */}
-      {videoSrc ? (
+      {videoSrc && !videoError ? (
         <video
           autoPlay
           loop
           muted
           playsInline
           className="video-bg"
+          onError={() => setVideoError(true)}
         >
           <source src={videoSrc} type="video/mp4" />
         </video>
