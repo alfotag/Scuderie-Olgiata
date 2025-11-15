@@ -7,7 +7,7 @@ export function useChapterAudio(audioSrc: string) {
   const sectionRef = useRef<HTMLElement>(null)
   const [showPlayButton, setShowPlayButton] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const isMobileRef = useRef(false)
 
   // Detect mobile
   useEffect(() => {
@@ -15,7 +15,8 @@ export function useChapterAudio(audioSrc: string) {
       const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
                      ('ontouchstart' in window) ||
                      (window.innerWidth < 768)
-      setIsMobile(mobile)
+      isMobileRef.current = mobile
+      console.log('📱 Is mobile detected:', mobile)
     }
     checkMobile()
     window.addEventListener('resize', checkMobile)
@@ -24,20 +25,25 @@ export function useChapterAudio(audioSrc: string) {
 
   useEffect(() => {
     const handleAudioPlay = () => {
+      console.log('🎵 Audio play event fired')
       window.dispatchEvent(new Event('voiceStart'))
+      setIsPlaying(true)
     }
 
     const handleAudioEnded = () => {
+      console.log('🎵 Audio ended event fired')
       window.dispatchEvent(new Event('voiceEnd'))
       setIsPlaying(false)
       // Su mobile, mostra di nuovo il bottone quando l'audio finisce
-      if (isMobile) {
+      if (isMobileRef.current) {
         setShowPlayButton(true)
       }
     }
 
     const handleAudioPause = () => {
+      console.log('🎵 Audio pause event fired')
       window.dispatchEvent(new Event('voiceEnd'))
+      setIsPlaying(false)
     }
 
     const audio = audioRef.current
@@ -50,41 +56,40 @@ export function useChapterAudio(audioSrc: string) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && audioRef.current) {
-            console.log('📍 Chapter visible, isMobile:', isMobile, 'isPlaying:', audioRef.current.paused)
-            // Su mobile, mostra sempre il bottone play se l'audio non è già in riproduzione
+          const audio = audioRef.current
+          if (!audio) return
+
+          if (entry.isIntersecting) {
+            const isMobile = isMobileRef.current
+            console.log('📍 Chapter visible, isMobile:', isMobile, 'audio paused:', audio.paused)
+
+            // Su mobile, mostra SEMPRE il bottone play
             if (isMobile) {
-              if (audioRef.current.paused) {
-                setShowPlayButton(true)
-                console.log('🎵 Play button shown for mobile')
-              }
+              setShowPlayButton(true)
+              console.log('🎵 Play button shown for mobile')
             } else {
               // Su desktop, prova autoplay solo se l'audio non è già stato riprodotto
-              if (audioRef.current.paused && audioRef.current.currentTime === 0) {
-                audioRef.current.play().catch(error => {
-                  console.log('Audio autoplay prevented:', error)
+              if (audio.paused && audio.currentTime === 0) {
+                audio.play().catch(error => {
+                  console.log('⚠️ Audio autoplay prevented:', error)
                   setShowPlayButton(true)
                 })
               }
             }
-          } else if (!entry.isIntersecting && audioRef.current) {
+          } else {
+            console.log('📍 Chapter NOT visible')
             // Ferma l'audio quando il capitolo esce dal viewport
-            if (!audioRef.current.paused) {
-              audioRef.current.pause()
-              audioRef.current.currentTime = 0
+            if (!audio.paused) {
+              audio.pause()
+              audio.currentTime = 0
               console.log('⏹️ Audio stopped - chapter out of view')
             }
+            setShowPlayButton(false)
             setIsPlaying(false)
-            // Su mobile, nascondi il bottone solo quando il capitolo esce dal viewport
-            if (isMobile) {
-              setShowPlayButton(false)
-            } else {
-              setShowPlayButton(false)
-            }
           }
         })
       },
-      { threshold: 0.3 }
+      { threshold: 0.5 }
     )
 
     if (sectionRef.current) {
@@ -101,7 +106,7 @@ export function useChapterAudio(audioSrc: string) {
         observer.unobserve(sectionRef.current)
       }
     }
-  }, [isMobile, isPlaying])
+  }, [])
 
   const handlePlayAudio = () => {
     if (audioRef.current) {
@@ -122,7 +127,7 @@ export function useChapterAudio(audioSrc: string) {
     sectionRef,
     showPlayButton,
     handlePlayAudio,
-    isMobile,
+    isMobile: isMobileRef.current,
     isPlaying
   }
 }

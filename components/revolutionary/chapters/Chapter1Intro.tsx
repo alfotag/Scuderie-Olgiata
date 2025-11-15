@@ -13,7 +13,7 @@ export default function Chapter1Intro() {
   useVoiceoverFilter(audioRef)
 
   return (
-    <section ref={sectionRef} className="min-w-screen h-screen flex items-center justify-center relative overflow-hidden bg-black">
+    <section ref={sectionRef} className="min-w-screen h-screen flex items-center justify-center relative overflow-hidden bg-black px-4">
       {/* Narration Audio */}
       <audio ref={audioRef} preload="auto">
         <source src="/audio/Chapter_1.mp3?v=3" type="audio/mpeg" />
@@ -46,7 +46,7 @@ export default function Chapter1Intro() {
       <div className="film-grain absolute inset-0 z-[3] opacity-30" />
 
       {/* Main Content */}
-      <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto py-12 sm:py-16">
+      <div className="relative z-10 text-center px-2 sm:px-4 md:px-6 max-w-4xl mx-auto py-8 sm:py-12 overflow-hidden">
         {/* Logo Ridotto */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -110,11 +110,11 @@ export default function Chapter1Intro() {
           transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="mb-4 sm:mb-6 px-2"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-extralight tracking-tight leading-none">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extralight tracking-tight leading-tight">
             <span className="block text-white/95 mb-1 sm:mb-2">
               C'ERA UNA VOLTA
             </span>
-            <span className="block text-white/50 text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-thin italic">
+            <span className="block text-white/50 text-lg sm:text-xl md:text-3xl lg:text-4xl font-thin italic">
               e c'è ancora
             </span>
           </h1>
@@ -135,10 +135,10 @@ export default function Chapter1Intro() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.4, delay: 1.6 }}
-          className="max-w-2xl mx-auto space-y-6 text-sm md:text-base text-white/70 leading-relaxed font-light"
+          className="max-w-2xl mx-auto space-y-4 sm:space-y-6 text-xs sm:text-sm md:text-base text-white/70 leading-relaxed font-light px-2"
         >
-          <p className="relative">
-            <span className="text-5xl md:text-6xl text-white/10 absolute -left-6 md:-left-10 -top-3 font-serif">"</span>
+          <p className="relative pl-4 sm:pl-6">
+            <span className="text-3xl sm:text-4xl md:text-5xl text-white/10 absolute left-0 top-0 font-serif">"</span>
             C'era una volta, e c'è ancora, un luogo dove il tempo segue il ritmo degli zoccoli sulla terra. Ma le vere leggende non restano immobili – evolvono, si rinnovano. E tu sei qui, proprio nel momento in cui tutto sta per cambiare.
           </p>
 

@@ -51,7 +51,7 @@ export default function Chapter5Facilities() {
       <div className="film-grain absolute inset-0 z-[3] opacity-25" />
 
       {/* Main Content */}
-      <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto py-12 sm:py-16">
+      <div className="relative z-10 text-center px-2 sm:px-4 md:px-6 max-w-4xl mx-auto py-8 sm:py-12 overflow-hidden">
         {/* Top Decorative Line */}
         <motion.div
           initial={{ scaleX: 0 }}
@@ -91,11 +91,11 @@ export default function Chapter5Facilities() {
           transition={{ duration: 1.4, delay: 0.3 }}
           className="mb-8"
         >
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-tight leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extralight tracking-tight leading-tight">
             <span className="block text-white/95 mb-2">
               CONDIVIDERE
             </span>
-            <span className="block text-white/50 text-3xl md:text-5xl lg:text-6xl font-thin italic">
+            <span className="block text-white/50 text-lg sm:text-xl md:text-3xl lg:text-4xl font-thin italic">
               ogni momento
             </span>
           </h2>
@@ -118,10 +118,10 @@ export default function Chapter5Facilities() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.4, delay: 0.9 }}
-          className="max-w-2xl mx-auto space-y-5 text-sm md:text-base text-white/70 leading-relaxed font-light mb-10"
+          className="max-w-2xl mx-auto space-y-4 sm:space-y-5 text-xs sm:text-sm md:text-base text-white/70 leading-relaxed font-light mb-10 px-2"
         >
-          <p className="relative">
-            <span className="text-5xl md:text-6xl text-white/10 absolute -left-6 md:-left-10 -top-3 font-serif">"</span>
+          <p className="relative pl-4 sm:pl-6">
+            <span className="text-3xl sm:text-4xl md:text-5xl text-white/10 absolute left-0 top-0 font-serif">"</span>
             Clubhouse dove condividere risate e racconti. Ristorante per cene indimenticabili. Eventi, feste, tornei. Campi da padel, calcio, palestra, benessere. Non vieni qui solo per andare a cavallo. Vieni qui a vivere, a condividere momenti con persone che diventano famiglia.
           </p>
         </motion.div>
