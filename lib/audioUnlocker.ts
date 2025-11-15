@@ -13,8 +13,7 @@ const AUDIO_PATHS = [
 
 class AudioUnlocker {
   private static instance: AudioUnlocker
-  private audioElements: Set<HTMLAudioElement> = new Set()
-  private preloadedAudios: HTMLAudioElement[] = []
+  private audioMap: Map<string, HTMLAudioElement> = new Map()
   private isUnlocked = false
 
   private constructor() {
@@ -37,23 +36,21 @@ class AudioUnlocker {
       const audio = new Audio()
       audio.preload = 'metadata'
       audio.src = path
-      this.preloadedAudios.push(audio)
+      this.audioMap.set(path, audio)
       console.log('🎵 Pre-loaded:', path)
     })
   }
 
-  registerAudio(audio: HTMLAudioElement) {
-    this.audioElements.add(audio)
-    console.log('🎵 Audio registered, total:', this.audioElements.size)
-
-    // If already unlocked, unlock this audio immediately
-    if (this.isUnlocked) {
-      this.unlockSingleAudio(audio)
+  getAudio(src: string): HTMLAudioElement | null {
+    // Strip query parameters for lookup (e.g., '/audio/Chapter_1.mp3?v=3' -> '/audio/Chapter_1.mp3')
+    const cleanSrc = src.split('?')[0]
+    const audio = this.audioMap.get(cleanSrc)
+    if (!audio) {
+      console.warn('⚠️ Audio not found in pre-loaded pool:', cleanSrc, '(original:', src, ')')
+      return null
     }
-  }
-
-  unregisterAudio(audio: HTMLAudioElement) {
-    this.audioElements.delete(audio)
+    console.log('🎵 Retrieved pre-loaded audio:', cleanSrc, 'isUnlocked:', this.isUnlocked)
+    return audio
   }
 
   private async unlockSingleAudio(audio: HTMLAudioElement) {
@@ -77,24 +74,18 @@ class AudioUnlocker {
       return
     }
 
-    console.log('🎵 Unlocking all audio elements...')
-    console.log('🎵 Pre-loaded audios:', this.preloadedAudios.length)
-    console.log('🎵 Registered audios:', this.audioElements.size)
+    console.log('🎵 Unlocking all pre-loaded audio elements...')
+    console.log('🎵 Total pre-loaded audios:', this.audioMap.size)
 
-    // Unlock pre-loaded audios first
-    const preloadedPromises = this.preloadedAudios.map(audio =>
+    // Unlock all pre-loaded audios
+    const promises = Array.from(this.audioMap.values()).map(audio =>
       this.unlockSingleAudio(audio)
     )
 
-    // Unlock registered audios
-    const registeredPromises = Array.from(this.audioElements).map(audio =>
-      this.unlockSingleAudio(audio)
-    )
-
-    await Promise.allSettled([...preloadedPromises, ...registeredPromises])
+    await Promise.allSettled(promises)
 
     this.isUnlocked = true
-    console.log('✅ All audio elements unlocked!')
+    console.log('✅ All audio elements unlocked and ready!')
   }
 
   getIsUnlocked(): boolean {

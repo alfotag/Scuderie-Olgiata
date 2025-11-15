@@ -13,11 +13,6 @@ export default function Chapter3TimeStop() {
 
   return (
     <section ref={sectionRef} className="min-w-screen h-screen flex items-center justify-center relative overflow-hidden bg-black">
-      {/* Narration Audio */}
-      <audio ref={audioRef} preload="auto">
-        <source src="/audio/Chapter_3_TimeStop.mp3" type="audio/mpeg" />
-      </audio>
-
       {/* Background Video */}
       <video
         autoPlay

@@ -11,10 +11,6 @@ export default function Chapter6Community() {
 
   return (
     <section ref={sectionRef} className="min-w-screen h-screen flex items-center justify-center relative overflow-hidden bg-black">
-      {/* Narration Audio */}
-      <audio ref={audioRef} preload="auto">
-        <source src="/audio/Chapter_6.mp3?v=2" type="audio/mpeg" />
-      </audio>
       {/* Background Video */}
       <video
         autoPlay

@@ -21,10 +21,6 @@ export default function Chapter5Facilities() {
 
   return (
     <section ref={sectionRef} className="min-w-screen h-screen flex items-center justify-center relative overflow-hidden bg-black">
-      {/* Narration Audio */}
-      <audio ref={audioRef} preload="auto">
-        <source src="/audio/Chapter_5.mp3" type="audio/mpeg" />
-      </audio>
       {/* Background Video */}
       <video
         autoPlay

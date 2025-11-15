@@ -11,11 +11,6 @@ export default function Chapter4Excellence() {
 
   return (
     <section ref={sectionRef} className="min-w-screen h-screen flex items-center justify-center relative overflow-hidden bg-black">
-      {/* Narration Audio */}
-      <audio ref={audioRef} preload="auto">
-        <source src="/audio/Chapter_4.mp3" type="audio/mpeg" />
-      </audio>
-
       {/* Background Video */}
       <video
         autoPlay

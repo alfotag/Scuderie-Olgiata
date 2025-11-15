@@ -14,11 +14,6 @@ export default function Chapter1Intro() {
 
   return (
     <section ref={sectionRef} className="min-w-screen h-screen flex items-center justify-center relative overflow-hidden bg-black px-4">
-      {/* Narration Audio */}
-      <audio ref={audioRef} preload="auto">
-        <source src="/audio/Chapter_1.mp3?v=3" type="audio/mpeg" />
-      </audio>
-
       {/* Background Video */}
       <video
         autoPlay

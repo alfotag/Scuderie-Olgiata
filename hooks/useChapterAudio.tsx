@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, RefObject } from 'react'
 import { audioUnlocker } from '@/lib/audioUnlocker'
 
 export function useChapterAudio(audioSrc: string) {
-  const audioRef = useRef<HTMLAudioElement>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const [showPlayButton, setShowPlayButton] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -25,12 +25,15 @@ export function useChapterAudio(audioSrc: string) {
   }, [])
 
   useEffect(() => {
-    const audio = audioRef.current
-
-    // Register this audio element for global unlock
-    if (audio) {
-      audioUnlocker.registerAudio(audio)
+    // Get the pre-unlocked audio element from the global pool
+    const audio = audioUnlocker.getAudio(audioSrc)
+    if (!audio) {
+      console.error('❌ Failed to get pre-loaded audio for:', audioSrc)
+      return
     }
+
+    audioRef.current = audio
+    console.log('🎵 Using pre-unlocked audio element for:', audioSrc)
 
     const handleAudioPlay = () => {
       console.log('🎵 Audio play event fired')
@@ -130,14 +133,17 @@ export function useChapterAudio(audioSrc: string) {
         audio.removeEventListener('play', handleAudioPlay)
         audio.removeEventListener('ended', handleAudioEnded)
         audio.removeEventListener('pause', handleAudioPause)
-        // Unregister from global unlock system
-        audioUnlocker.unregisterAudio(audio)
+        // Stop audio if it's playing
+        if (!audio.paused) {
+          audio.pause()
+          audio.currentTime = 0
+        }
       }
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current)
       }
     }
-  }, [])
+  }, [audioSrc])
 
   const handlePlayAudio = () => {
     if (audioRef.current) {
