@@ -38,7 +38,7 @@ export default function Chapter4Excellence() {
       <div className="film-grain absolute inset-0 z-[3] opacity-25" />
 
       {/* Main Content */}
-      <div className="relative z-10 text-center px-2 sm:px-4 md:px-6 max-w-4xl mx-auto py-8 sm:py-12 overflow-hidden">
+      <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-3xl mx-auto py-12 sm:py-16 md:py-20 overflow-hidden">
         {/* Top Decorative Line */}
         <motion.div
           initial={{ scaleX: 0 }}
@@ -78,11 +78,11 @@ export default function Chapter4Excellence() {
           transition={{ duration: 1.4, delay: 0.3 }}
           className="mb-12"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extralight tracking-tight leading-tight">
-            <span className="block text-white/95 mb-2">
+          <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-extralight tracking-tight leading-tight">
+            <span className="block text-white/95 mb-1 sm:mb-2">
               QUELL'ISTANTE
             </span>
-            <span className="block text-white/50 text-lg sm:text-xl md:text-3xl lg:text-4xl font-thin italic">
+            <span className="block text-white/50 text-base sm:text-lg md:text-2xl lg:text-3xl font-thin italic">
               in cui dimentichi tutto
             </span>
           </h2>
@@ -105,24 +105,24 @@ export default function Chapter4Excellence() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.4, delay: 0.9 }}
-          className="max-w-2xl mx-auto space-y-4 sm:space-y-6 text-xs sm:text-sm md:text-base text-white/70 leading-relaxed font-light px-2"
+          className="max-w-xl mx-auto space-y-3 sm:space-y-4 text-xs sm:text-sm text-white/70 leading-relaxed font-light"
         >
-          <p className="relative pl-4 sm:pl-6">
-            <span className="text-3xl sm:text-4xl md:text-5xl text-white/10 absolute left-0 top-0 font-serif">"</span>
+          <p className="relative pl-6 sm:pl-8">
+            <span className="text-2xl sm:text-3xl md:text-4xl text-white/10 absolute left-0 top-0 font-serif">"</span>
             Una passeggiata a cavallo al calar del sole. Un cavallo che corre libero al vento su distese chilometriche di campi verdi. E tu, in quell'istante, dimentichi tutto. Le scadenze, le ansie, il rumore. Resta solo il battito, il respiro, la libertà.
           </p>
 
           {/* Separator */}
-          <div className="flex items-center gap-3 py-3">
+          <div className="flex items-center gap-2 py-2">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
             <div className="w-1 h-1 rounded-full bg-amber-400/40" />
             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
           </div>
 
-          <p className="text-amber-400/80 font-normal text-base md:text-lg">
+          <p className="text-amber-400/80 font-normal text-sm md:text-base">
             Questo è ciò che ti regaliamo: momenti che valgono una vita.
           </p>
-          <p className="text-white/50 text-xs md:text-sm italic">
+          <p className="text-white/50 text-xs sm:text-sm italic pb-4">
             Momenti che non dimenticherai mai.
           </p>
         </motion.div>
