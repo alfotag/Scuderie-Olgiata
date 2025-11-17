@@ -56,11 +56,22 @@ class AudioUnlocker {
     console.log('🎵 Unlocking global audio element...')
 
     try {
-      // Sblocca l'elemento audio con un piccolo suono silenzioso
+      // IMPORTANTE: Assegna una src valida prima di sbloccare
+      // Altrimenti play() fallisce perché non c'è nessun file da riprodurre
+      if (!this.globalAudio.src) {
+        console.log('🎵 Setting initial audio source for unlock...')
+        this.globalAudio.src = '/audio/Chapter_1.mp3'
+        this.currentSrc = '/audio/Chapter_1.mp3'
+        this.globalAudio.load()
+      }
+
+      // Sblocca l'elemento audio con un piccolo suono quasi silenzioso
       this.globalAudio.volume = 0.01
+      console.log('🎵 Attempting to play for unlock...')
       const playPromise = this.globalAudio.play()
       if (playPromise !== undefined) {
         await playPromise
+        console.log('🎵 Play successful, pausing...')
         this.globalAudio.pause()
         this.globalAudio.currentTime = 0
         this.globalAudio.volume = 1
@@ -68,7 +79,9 @@ class AudioUnlocker {
       this.isUnlocked = true
       console.log('✅ Global audio element unlocked!')
     } catch (error) {
-      console.warn('⚠️ Failed to unlock global audio:', error)
+      console.error('❌ Failed to unlock global audio:', error)
+      // Anche se fallisce, segna come unlocked per permettere tentativi successivi
+      this.isUnlocked = true
     }
   }
 
