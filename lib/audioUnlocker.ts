@@ -1,25 +1,16 @@
 // Global audio unlocker for iOS/Safari
-// Unlocks all audio elements when user first interacts
-
-const AUDIO_PATHS = [
-  '/audio/Chapter_1.mp3',
-  '/audio/Chapter_2.mp3',
-  '/audio/Chapter_3_TimeStop.mp3',
-  '/audio/Chapter_4.mp3',
-  '/audio/Chapter_5.mp3',
-  '/audio/Chapter_6.mp3',
-  '/audio/Chapter_7.mp3',
-]
+// Uses a SINGLE audio element that changes source instead of multiple elements
 
 class AudioUnlocker {
   private static instance: AudioUnlocker
-  private audioMap: Map<string, HTMLAudioElement> = new Map()
+  private globalAudio: HTMLAudioElement | null = null
+  private currentSrc: string = ''
   private isUnlocked = false
+  private eventListeners: Map<string, Set<(event: Event) => void>> = new Map()
 
   private constructor() {
-    // Pre-create audio elements in the background
     if (typeof window !== 'undefined') {
-      this.preloadAudios()
+      this.createGlobalAudio()
     }
   }
 
@@ -30,62 +21,146 @@ class AudioUnlocker {
     return AudioUnlocker.instance
   }
 
-  private preloadAudios() {
-    console.log('🎵 Pre-loading audio elements...')
-    AUDIO_PATHS.forEach(path => {
-      const audio = new Audio()
-      audio.preload = 'metadata'
-      audio.src = path
-      this.audioMap.set(path, audio)
-      console.log('🎵 Pre-loaded:', path)
+  private createGlobalAudio() {
+    console.log('🎵 Creating single global audio element...')
+    this.globalAudio = new Audio()
+    this.globalAudio.preload = 'metadata'
+
+    // Proxy eventi per i listeners
+    this.globalAudio.addEventListener('play', (e) => {
+      this.triggerEvent('play', e)
     })
+    this.globalAudio.addEventListener('pause', (e) => {
+      this.triggerEvent('pause', e)
+    })
+    this.globalAudio.addEventListener('ended', (e) => {
+      this.triggerEvent('ended', e)
+    })
+    this.globalAudio.addEventListener('timeupdate', (e) => {
+      this.triggerEvent('timeupdate', e)
+    })
+
+    console.log('✅ Global audio element created')
   }
 
-  getAudio(src: string): HTMLAudioElement | null {
-    // Strip query parameters for lookup (e.g., '/audio/Chapter_1.mp3?v=3' -> '/audio/Chapter_1.mp3')
-    const cleanSrc = src.split('?')[0]
-    const audio = this.audioMap.get(cleanSrc)
-    if (!audio) {
-      console.warn('⚠️ Audio not found in pre-loaded pool:', cleanSrc, '(original:', src, ')')
-      return null
-    }
-    console.log('🎵 Retrieved pre-loaded audio:', cleanSrc, 'isUnlocked:', this.isUnlocked)
-    return audio
-  }
-
-  private async unlockSingleAudio(audio: HTMLAudioElement) {
-    try {
-      // Play and immediately pause to unlock the audio element
-      const playPromise = audio.play()
-      if (playPromise !== undefined) {
-        await playPromise
-        audio.pause()
-        audio.currentTime = 0
-      }
-      console.log('✅ Audio unlocked:', audio.src)
-    } catch (error) {
-      console.warn('⚠️ Failed to unlock audio:', audio.src, error)
-    }
+  getGlobalAudio(): HTMLAudioElement | null {
+    return this.globalAudio
   }
 
   async unlockAll() {
-    if (this.isUnlocked) {
-      console.log('🎵 Already unlocked, skipping')
+    if (this.isUnlocked || !this.globalAudio) {
+      console.log('🎵 Already unlocked or no audio element')
       return
     }
 
-    console.log('🎵 Unlocking all pre-loaded audio elements...')
-    console.log('🎵 Total pre-loaded audios:', this.audioMap.size)
+    console.log('🎵 Unlocking global audio element...')
 
-    // Unlock all pre-loaded audios
-    const promises = Array.from(this.audioMap.values()).map(audio =>
-      this.unlockSingleAudio(audio)
-    )
+    try {
+      // Sblocca l'elemento audio con un piccolo suono silenzioso
+      this.globalAudio.volume = 0.01
+      const playPromise = this.globalAudio.play()
+      if (playPromise !== undefined) {
+        await playPromise
+        this.globalAudio.pause()
+        this.globalAudio.currentTime = 0
+        this.globalAudio.volume = 1
+      }
+      this.isUnlocked = true
+      console.log('✅ Global audio element unlocked!')
+    } catch (error) {
+      console.warn('⚠️ Failed to unlock global audio:', error)
+    }
+  }
 
-    await Promise.allSettled(promises)
+  async switchToSource(src: string) {
+    if (!this.globalAudio) {
+      console.error('❌ No global audio element')
+      return false
+    }
 
-    this.isUnlocked = true
-    console.log('✅ All audio elements unlocked and ready!')
+    // Strip query parameters
+    const cleanSrc = src.split('?')[0]
+
+    if (this.currentSrc === cleanSrc) {
+      console.log('🎵 Already on source:', cleanSrc)
+      return true
+    }
+
+    console.log('🎵 Switching audio source to:', cleanSrc)
+
+    try {
+      // Stop current audio
+      if (!this.globalAudio.paused) {
+        this.globalAudio.pause()
+      }
+
+      // Change source
+      this.globalAudio.src = cleanSrc
+      this.currentSrc = cleanSrc
+
+      // Load new source
+      this.globalAudio.load()
+
+      console.log('✅ Source switched successfully')
+      return true
+    } catch (error) {
+      console.error('❌ Failed to switch source:', error)
+      return false
+    }
+  }
+
+  async play() {
+    if (!this.globalAudio) {
+      console.error('❌ No global audio element')
+      return false
+    }
+
+    try {
+      console.log('🎵 Playing global audio...')
+      await this.globalAudio.play()
+      console.log('✅ Audio playing')
+      return true
+    } catch (error) {
+      console.error('❌ Failed to play audio:', error)
+      return false
+    }
+  }
+
+  pause() {
+    if (!this.globalAudio) return
+    this.globalAudio.pause()
+  }
+
+  stop() {
+    if (!this.globalAudio) return
+    this.globalAudio.pause()
+    this.globalAudio.currentTime = 0
+  }
+
+  getCurrentSrc(): string {
+    return this.currentSrc
+  }
+
+  // Event listener management
+  addEventListener(event: string, callback: (event: Event) => void) {
+    if (!this.eventListeners.has(event)) {
+      this.eventListeners.set(event, new Set())
+    }
+    this.eventListeners.get(event)!.add(callback)
+  }
+
+  removeEventListener(event: string, callback: (event: Event) => void) {
+    const listeners = this.eventListeners.get(event)
+    if (listeners) {
+      listeners.delete(callback)
+    }
+  }
+
+  private triggerEvent(event: string, originalEvent: Event) {
+    const listeners = this.eventListeners.get(event)
+    if (listeners) {
+      listeners.forEach(callback => callback(originalEvent))
+    }
   }
 
   getIsUnlocked(): boolean {

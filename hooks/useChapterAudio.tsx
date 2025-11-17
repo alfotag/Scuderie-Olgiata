@@ -25,20 +25,25 @@ export function useChapterAudio(audioSrc: string) {
   }, [])
 
   useEffect(() => {
-    // Get the pre-unlocked audio element from the global pool
-    const audio = audioUnlocker.getAudio(audioSrc)
+    // Get the single global audio element
+    const audio = audioUnlocker.getGlobalAudio()
     if (!audio) {
-      console.error('❌ Failed to get pre-loaded audio for:', audioSrc)
+      console.error('❌ Failed to get global audio element')
       return
     }
 
     audioRef.current = audio
-    console.log('🎵 Using pre-unlocked audio element for:', audioSrc)
+    console.log('🎵 Using global audio element for:', audioSrc)
 
     const handleAudioPlay = () => {
-      console.log('🎵 Audio play event fired')
-      window.dispatchEvent(new Event('voiceStart'))
-      setIsPlaying(true)
+      // Verifica se è il MIO capitolo che sta suonando
+      const currentSrc = audioUnlocker.getCurrentSrc()
+      const mySrc = audioSrc.split('?')[0]
+      if (currentSrc === mySrc) {
+        console.log('🎵 Audio play event fired for my chapter:', mySrc)
+        window.dispatchEvent(new Event('voiceStart'))
+        setIsPlaying(true)
+      }
     }
 
     const handleAudioEnded = () => {
@@ -57,65 +62,63 @@ export function useChapterAudio(audioSrc: string) {
       setIsPlaying(false)
     }
 
-    if (audio) {
-      audio.addEventListener('play', handleAudioPlay)
-      audio.addEventListener('ended', handleAudioEnded)
-      audio.addEventListener('pause', handleAudioPause)
-    }
+    // Usa il sistema di event listener dell'audioUnlocker
+    audioUnlocker.addEventListener('play', handleAudioPlay)
+    audioUnlocker.addEventListener('ended', handleAudioEnded)
+    audioUnlocker.addEventListener('pause', handleAudioPause)
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          const audio = audioRef.current
-          if (!audio) return
-
+        entries.forEach(async (entry) => {
           if (entry.isIntersecting) {
             const isMobile = isMobileRef.current
-            console.log('📍 Chapter visible, isMobile:', isMobile, 'audio paused:', audio.paused, 'currentTime:', audio.currentTime)
+            console.log('📍 Chapter visible:', audioSrc, 'isMobile:', isMobile)
 
-            // SEMPRE prova autoplay prima (sia desktop che mobile)
-            // Dato che l'utente ha già interagito cliccando "Tocca per Iniziare"
-            if (audio.paused && audio.currentTime === 0) {
-              console.log('🎵 Attempting autoplay for chapter audio...')
-              console.log('🎵 Audio ready state:', audio.readyState, 'network state:', audio.networkState)
-
-              // Assicurati che l'audio sia caricato
-              const tryPlay = () => {
-                audio.play()
-                  .then(() => {
-                    console.log('✅ Audio autoplay SUCCESS!')
-                    setIsPlaying(true)
-                    setShowPlayButton(false)
-                  })
-                  .catch(error => {
-                    console.error('❌ Audio autoplay FAILED:', error)
-                    // Solo se l'autoplay fallisce, mostra il bottone play
-                    setShowPlayButton(true)
-                    console.log('🎵 Play button shown because autoplay failed')
-                  })
-              }
-
-              // Se l'audio non è ancora caricato, aspetta che si carichi
-              if (audio.readyState < 3) {
-                console.log('⏳ Waiting for audio to load...')
-                audio.addEventListener('canplay', tryPlay, { once: true })
-                audio.load() // Forza il caricamento
-              } else {
-                tryPlay()
-              }
-            } else if (audio.paused && audio.currentTime > 0) {
-              // L'audio è stato già riprodotto in precedenza
-              console.log('🎵 Audio was previously played, showing play button')
+            // Cambia la sorgente dell'audio globale a questo capitolo
+            const switched = await audioUnlocker.switchToSource(audioSrc)
+            if (!switched) {
+              console.error('❌ Failed to switch audio source')
               setShowPlayButton(true)
+              return
+            }
+
+            // Aspetta che l'audio sia pronto
+            const audio = audioUnlocker.getGlobalAudio()
+            if (!audio) return
+
+            const tryPlay = async () => {
+              console.log('🎵 Attempting autoplay for chapter...')
+              const success = await audioUnlocker.play()
+
+              if (success) {
+                console.log('✅ Audio autoplay SUCCESS!')
+                setIsPlaying(true)
+                setShowPlayButton(false)
+              } else {
+                console.warn('⚠️ Audio autoplay failed, showing play button')
+                setShowPlayButton(true)
+              }
+            }
+
+            // Se l'audio non è ancora caricato, aspetta
+            if (audio.readyState < 3) {
+              console.log('⏳ Waiting for audio to load...')
+              audio.addEventListener('canplay', tryPlay, { once: true })
+            } else {
+              await tryPlay()
             }
           } else {
-            console.log('📍 Chapter NOT visible - stopping audio')
-            // Ferma l'audio quando il capitolo esce dal viewport
-            if (!audio.paused) {
-              audio.pause()
-              audio.currentTime = 0
-              console.log('⏹️ Audio stopped - chapter out of view')
+            console.log('📍 Chapter NOT visible - checking if should stop audio')
+
+            // Ferma solo se è il MIO capitolo che sta suonando
+            const currentSrc = audioUnlocker.getCurrentSrc()
+            const mySrc = audioSrc.split('?')[0]
+
+            if (currentSrc === mySrc) {
+              console.log('⏹️ Stopping my chapter audio')
+              audioUnlocker.stop()
             }
+
             setShowPlayButton(false)
             setIsPlaying(false)
           }
@@ -129,33 +132,32 @@ export function useChapterAudio(audioSrc: string) {
     }
 
     return () => {
-      if (audio) {
-        audio.removeEventListener('play', handleAudioPlay)
-        audio.removeEventListener('ended', handleAudioEnded)
-        audio.removeEventListener('pause', handleAudioPause)
-        // Stop audio if it's playing
-        if (!audio.paused) {
-          audio.pause()
-          audio.currentTime = 0
-        }
-      }
+      audioUnlocker.removeEventListener('play', handleAudioPlay)
+      audioUnlocker.removeEventListener('ended', handleAudioEnded)
+      audioUnlocker.removeEventListener('pause', handleAudioPause)
+
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current)
       }
     }
   }, [audioSrc])
 
-  const handlePlayAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.play()
-        .then(() => {
-          setIsPlaying(true)
-          setShowPlayButton(false)
-          console.log('✅ Audio started by user interaction')
-        })
-        .catch(error => {
-          console.error('Error playing audio:', error)
-        })
+  const handlePlayAudio = async () => {
+    // Prima cambia la sorgente a questo capitolo
+    const switched = await audioUnlocker.switchToSource(audioSrc)
+    if (!switched) {
+      console.error('❌ Failed to switch audio source')
+      return
+    }
+
+    // Poi riproduci
+    const success = await audioUnlocker.play()
+    if (success) {
+      setIsPlaying(true)
+      setShowPlayButton(false)
+      console.log('✅ Audio started by user interaction')
+    } else {
+      console.error('❌ Failed to play audio')
     }
   }
 
