@@ -13,7 +13,8 @@ export default function AudioManager() {
   useEffect(() => {
     let fadeIntervalRef: NodeJS.Timeout | null = null
 
-    // Avvia la musica al primo click/scroll/touch dell'utente
+    // Avvia la musica immediatamente quando il componente si monta
+    // (il componente si monta solo dopo che l'utente ha cliccato "Tocca per Iniziare")
     const startMusic = () => {
       if (!isPlaying && bgMusicRef.current) {
         // Setup Web Audio API per controllo volume migliore su mobile
@@ -58,11 +59,11 @@ export default function AudioManager() {
       }
     }
 
-    // Ascolta vari eventi per avviare la musica (inclusi eventi mobile + wheel per rotella mouse)
-    const events = ['click', 'scroll', 'wheel', 'touchstart', 'touchend', 'keydown']
-    events.forEach(event => {
-      document.addEventListener(event, startMusic, { passive: true, once: true })
-    })
+    // Avvia la musica immediatamente
+    console.log('🎵 AudioManager mounted - starting background music immediately')
+    const timer = setTimeout(() => {
+      startMusic()
+    }, 100) // Piccolo delay per assicurarsi che tutto sia pronto
 
     // Listener per gli audio dei capitoli (sidechain effect)
     const handleVoiceStart = () => {
@@ -154,14 +155,14 @@ export default function AudioManager() {
     console.log('🎵 AudioManager: Event listeners registered')
 
     return () => {
+      if (timer) {
+        clearTimeout(timer)
+      }
       if (fadeIntervalRef) {
         clearInterval(fadeIntervalRef)
       }
       window.removeEventListener('voiceStart', handleVoiceStart)
       window.removeEventListener('voiceEnd', handleVoiceEnd)
-      events.forEach(event => {
-        document.removeEventListener(event, startMusic)
-      })
     }
   }, [isPlaying])
 
