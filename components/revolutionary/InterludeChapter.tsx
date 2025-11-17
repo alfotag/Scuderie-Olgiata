@@ -640,7 +640,7 @@ export default function InterludeChapter({
 
             {isTitle ? (
               <div
-                className="text-center max-w-xl z-10 px-8"
+                className="text-center max-w-lg z-10 px-4 sm:px-6 md:px-8"
                 style={{
                   opacity: isFocused ? 1 : 0.7,
                   transition: 'opacity 1s'
@@ -658,7 +658,7 @@ export default function InterludeChapter({
 
                 {/* Titolo principale - pulito e leggibile */}
                 <h2
-                  className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light mb-6 sm:mb-8 md:mb-10 lg:mb-12 leading-tight tracking-wide px-3 sm:px-4"
+                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light mb-6 sm:mb-8 md:mb-10 lg:mb-12 leading-tight tracking-wide px-2 sm:px-3"
                   style={{
                     fontFamily: 'Georgia, "Times New Roman", serif',
                     color: '#1a0f0a',
@@ -738,7 +738,7 @@ export default function InterludeChapter({
 
                 {/* Titolo principale - minimalista e leggibile */}
                 <h3
-                  className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-light text-center mb-6 sm:mb-8 md:mb-12 lg:mb-16 leading-tight tracking-wide px-2 sm:px-3"
+                  className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-light text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12 leading-tight tracking-wide px-2 sm:px-3"
                   style={{
                     fontFamily: 'Georgia, "Times New Roman", serif',
                     color: '#2C1810',
@@ -751,9 +751,9 @@ export default function InterludeChapter({
 
                 {/* Contenuto principale - pulito e leggibile - NASCOSTO SU MOBILE */}
                 {!isMobile && (
-                  <div className="w-full max-w-xl px-2 sm:px-4">
+                  <div className="w-full max-w-lg px-2 sm:px-4">
                     <p
-                      className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-light leading-relaxed text-center"
+                      className="text-xs sm:text-sm md:text-base lg:text-lg font-light leading-relaxed text-center"
                       style={{
                         fontFamily: 'Georgia, "Times New Roman", serif',
                         color: '#3E2723',
