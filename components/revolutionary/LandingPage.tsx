@@ -50,13 +50,13 @@ export default function LandingPage({ onStart }: LandingPageProps) {
       <div className="film-grain absolute inset-0 opacity-20" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-2xl mx-auto">
+      <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-xl sm:max-w-2xl mx-auto">
         {/* Logo */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-80 md:h-80 mx-auto mb-8 sm:mb-10 md:mb-12"
+          className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 mx-auto mb-6 sm:mb-8 md:mb-10"
         >
           {/* Glow effect */}
           <motion.div
@@ -82,10 +82,10 @@ export default function LandingPage({ onStart }: LandingPageProps) {
           transition={{ duration: 1.2, delay: 0.5 }}
           className="mb-8 sm:mb-10 md:mb-12 space-y-3 sm:space-y-4"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extralight text-white/95 tracking-tight px-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extralight text-white/95 tracking-tight px-2">
             Scuderie Olgiata
           </h1>
-          <p className="text-xs sm:text-sm md:text-base text-white/60 font-light uppercase tracking-[0.2em] sm:tracking-[0.3em] px-2">
+          <p className="text-xs sm:text-sm text-white/60 font-light uppercase tracking-[0.2em] sm:tracking-[0.3em] px-2">
             Una Storia da Ascoltare
           </p>
         </motion.div>
@@ -109,7 +109,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
               >
                 <HiVolumeUp className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
               </motion.div>
-              <span className="text-sm sm:text-base md:text-lg font-light whitespace-nowrap">Tocca per Iniziare</span>
+              <span className="text-sm sm:text-base font-light whitespace-nowrap">Tocca per Iniziare</span>
             </div>
           </div>
 
