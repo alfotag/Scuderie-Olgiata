@@ -48,7 +48,7 @@ export default function Chapter5Facilities() {
       <div className="film-grain absolute inset-0 z-[3] opacity-25" />
 
       {/* Main Content */}
-      <div className="relative z-10 text-center px-2 sm:px-4 md:px-6 max-w-4xl mx-auto py-8 sm:py-12 overflow-hidden">
+      <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-3xl mx-auto py-8 sm:py-12 md:py-16 overflow-hidden">
         {/* Top Decorative Line */}
         <motion.div
           initial={{ scaleX: 0 }}
@@ -88,11 +88,11 @@ export default function Chapter5Facilities() {
           transition={{ duration: 1.4, delay: 0.3 }}
           className="mb-8"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extralight tracking-tight leading-tight">
-            <span className="block text-white/95 mb-2">
+          <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-extralight tracking-tight leading-tight">
+            <span className="block text-white/95 mb-1 sm:mb-2">
               CONDIVIDERE
             </span>
-            <span className="block text-white/50 text-lg sm:text-xl md:text-3xl lg:text-4xl font-thin italic">
+            <span className="block text-white/50 text-base sm:text-lg md:text-2xl lg:text-3xl font-thin italic">
               ogni momento
             </span>
           </h2>
@@ -115,10 +115,10 @@ export default function Chapter5Facilities() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.4, delay: 0.9 }}
-          className="max-w-2xl mx-auto space-y-4 sm:space-y-5 text-xs sm:text-sm md:text-base text-white/70 leading-relaxed font-light mb-10 px-2"
+          className="max-w-xl mx-auto space-y-3 sm:space-y-4 text-xs sm:text-sm text-white/70 leading-relaxed font-light mb-8 px-2"
         >
           <p className="relative pl-4 sm:pl-6">
-            <span className="text-3xl sm:text-4xl md:text-5xl text-white/10 absolute left-0 top-0 font-serif">"</span>
+            <span className="text-2xl sm:text-3xl md:text-4xl text-white/10 absolute left-0 top-0 font-serif">"</span>
             Clubhouse dove condividere risate e racconti. Ristorante per cene indimenticabili. Eventi, feste, tornei. Campi da padel, calcio, palestra, benessere. Non vieni qui solo per andare a cavallo. Vieni qui a vivere, a condividere momenti con persone che diventano famiglia.
           </p>
         </motion.div>
@@ -129,7 +129,7 @@ export default function Chapter5Facilities() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, delay: 1.2 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-6 sm:mb-8"
         >
           {facilities.map((facility, idx) => (
             <motion.div
@@ -140,10 +140,10 @@ export default function Chapter5Facilities() {
               transition={{ delay: 1.2 + idx * 0.1, duration: 0.8 }}
               className="relative group"
             >
-              <div className="relative bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-blue-400/30 transition-all duration-500">
-                <facility.icon className="w-8 h-8 text-blue-400/70 mb-3 mx-auto" />
-                <div className="text-xs font-light text-white/90 mb-1 uppercase tracking-wider">{facility.title}</div>
-                <div className="text-[11px] sm:text-xs text-white/50 font-light leading-tight">{facility.desc}</div>
+              <div className="relative bg-white/5 backdrop-blur-sm rounded-lg p-3 sm:p-4 border border-white/10 hover:border-blue-400/30 transition-all duration-500">
+                <facility.icon className="w-6 h-6 sm:w-7 sm:h-7 text-blue-400/70 mb-2 sm:mb-3 mx-auto" />
+                <div className="text-[10px] sm:text-xs font-light text-white/90 mb-1 uppercase tracking-wider">{facility.title}</div>
+                <div className="text-[9px] sm:text-[11px] text-white/50 font-light leading-tight">{facility.desc}</div>
               </div>
             </motion.div>
           ))}
@@ -168,7 +168,7 @@ export default function Chapter5Facilities() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.2, delay: 1.6 }}
-          className="text-blue-400/80 font-normal text-base md:text-lg"
+          className="text-blue-400/80 font-normal text-sm sm:text-base pb-4"
         >
           Perché la vita è fatta di momenti condivisi. E questo è il luogo perfetto per viverli.
         </motion.p>
