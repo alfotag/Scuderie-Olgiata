@@ -1,6 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
+import { getVideoUrl } from '@/lib/cloudinary-videos'
 import { useState, useEffect } from 'react'
 import { HiArrowRight, HiDownload } from 'react-icons/hi'
 import { FaApple, FaAndroid } from 'react-icons/fa'
@@ -49,7 +50,7 @@ export default function Chapter7Decision() {
           target.style.display = 'none'
         }}
       >
-        <source src="/video/compressed/stable-window.mp4" type="video/mp4" />
+        <source src={getVideoUrl("/video/compressed/stable-window.mp4")} type="video/mp4" />
       </video>
 
       {/* Elegant Dark Overlay */}

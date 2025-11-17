@@ -1,6 +1,7 @@
 'use client';
 
 import InterludeChapter from '../InterludeChapter';
+import { getVideoUrl } from '@/lib/cloudinary-videos';
 
 export default function Interlude2Heritage() {
   const media = [
@@ -8,11 +9,11 @@ export default function Interlude2Heritage() {
       type: 'video-group' as const,
       videos: [
         {
-          src: '/video/compressed/chestnut-horse.mp4',
+          src: getVideoUrl('/video/compressed/chestnut-horse.mp4'),
           caption: 'I nostri campi'
         },
         {
-          src: '/video/compressed/stables-exit.mp4',
+          src: getVideoUrl('/video/compressed/stables-exit.mp4'),
           caption: 'Le scuderie'
         }
       ],
@@ -23,11 +24,11 @@ export default function Interlude2Heritage() {
       type: 'video-group' as const,
       videos: [
         {
-          src: '/video/compressed/rider-horse.mp4',
+          src: getVideoUrl('/video/compressed/rider-horse.mp4'),
           caption: 'La giostra coperta'
         },
         {
-          src: '/video/compressed/training.mp4',
+          src: getVideoUrl('/video/compressed/training.mp4'),
           caption: 'Il tondino'
         }
       ],

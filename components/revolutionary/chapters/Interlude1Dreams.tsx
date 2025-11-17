@@ -1,6 +1,7 @@
 'use client';
 
 import InterludeChapter from '../InterludeChapter';
+import { getVideoUrl } from '@/lib/cloudinary-videos';
 
 export default function Interlude1Dreams() {
   const media = [
@@ -8,11 +9,11 @@ export default function Interlude1Dreams() {
       type: 'video-group' as const,
       videos: [
         {
-          src: '/video/compressed/horse-ranch.mp4',
+          src: getVideoUrl('/video/compressed/horse-ranch.mp4'),
           caption: 'Vista dall\'alto delle Scuderie'
         },
         {
-          src: '/video/compressed/horse-portrait.mp4',
+          src: getVideoUrl('/video/compressed/horse-portrait.mp4'),
           caption: 'L\'atmosfera del circolo'
         }
       ],
@@ -23,11 +24,11 @@ export default function Interlude1Dreams() {
       type: 'video-group' as const,
       videos: [
         {
-          src: '/video/compressed/stable-window.mp4',
+          src: getVideoUrl('/video/compressed/stable-window.mp4'),
           caption: 'La luce del mattino'
         },
         {
-          src: '/video/compressed/saddle-close.mp4',
+          src: getVideoUrl('/video/compressed/saddle-close.mp4'),
           caption: 'I dettagli che fanno la differenza'
         }
       ],

@@ -1,6 +1,7 @@
 'use client';
 
 import InterludeChapter from '../InterludeChapter';
+import { getVideoUrl } from '@/lib/cloudinary-videos';
 
 export default function Interlude3Life() {
   const media = [
@@ -8,11 +9,11 @@ export default function Interlude3Life() {
       type: 'video-group' as const,
       videos: [
         {
-          src: '/video/compressed/horses-grazing.mp4',
+          src: getVideoUrl('/video/compressed/horses-grazing.mp4'),
           caption: 'La Clubhouse'
         },
         {
-          src: '/video/compressed/whatsapp-video.mp4',
+          src: getVideoUrl('/video/compressed/whatsapp-video.mp4'),
           caption: 'Centro Benessere'
         }
       ],
@@ -24,11 +25,11 @@ export default function Interlude3Life() {
       type: 'video-group' as const,
       videos: [
         {
-          src: '/video/compressed/aerial-view.mp4',
+          src: getVideoUrl('/video/compressed/aerial-view.mp4'),
           caption: 'Tennis e Padel'
         },
         {
-          src: '/video/compressed/jockey-running.mp4',
+          src: getVideoUrl('/video/compressed/jockey-running.mp4'),
           caption: 'Sport e Tempo Libero'
         }
       ],

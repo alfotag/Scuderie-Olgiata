@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { HiVolumeUp } from 'react-icons/hi'
 import { audioUnlocker } from '@/lib/audioUnlocker'
+import { getVideoUrl } from '@/lib/cloudinary-videos'
 
 interface LandingPageProps {
   onStart: () => void
@@ -39,7 +40,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
           target.style.display = 'none'
         }}
       >
-        <source src="/video/compressed/stable-window.mp4" type="video/mp4" />
+        <source src={getVideoUrl('/video/compressed/stable-window.mp4')} type="video/mp4" />
       </video>
 
       {/* Vignette */}

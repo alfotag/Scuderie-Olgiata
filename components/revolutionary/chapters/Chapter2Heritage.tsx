@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { getVideoUrl } from '@/lib/cloudinary-videos'
 import { useVoiceoverFilter } from '@/hooks/useVoiceoverFilter'
 import { useChapterAudio } from '@/hooks/useChapterAudio'
 import PlayButton from '@/components/revolutionary/PlayButton'
@@ -26,7 +27,7 @@ export default function Chapter2Heritage() {
           target.style.display = 'none'
         }}
       >
-        <source src="/video/compressed/stables-exit.mp4" type="video/mp4" />
+        <source src={getVideoUrl("/video/compressed/stables-exit.mp4")} type="video/mp4" />
       </video>
 
       {/* Elegant Dark Overlay */}

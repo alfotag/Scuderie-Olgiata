@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { getVideoUrl } from '@/lib/cloudinary-videos'
 import { MdSpa } from 'react-icons/md'
 import { FaDumbbell, FaUtensils } from 'react-icons/fa'
 import { HiOfficeBuilding } from 'react-icons/hi'
@@ -34,7 +35,7 @@ export default function Chapter5Facilities() {
           target.style.display = 'none'
         }}
       >
-        <source src="/video/compressed/aerial-view.mp4" type="video/mp4" />
+        <source src={getVideoUrl("/video/compressed/aerial-view.mp4")} type="video/mp4" />
       </video>
 
       {/* Elegant Dark Overlay */}

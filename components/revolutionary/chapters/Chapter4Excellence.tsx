@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { getVideoUrl } from '@/lib/cloudinary-videos'
 import { useVoiceoverFilter } from '@/hooks/useVoiceoverFilter'
 import { useChapterAudio } from '@/hooks/useChapterAudio'
 import PlayButton from '@/components/revolutionary/PlayButton'
@@ -24,7 +25,7 @@ export default function Chapter4Excellence() {
           target.style.display = 'none'
         }}
       >
-        <source src="/video/compressed/saddle-close.mp4" type="video/mp4" />
+        <source src={getVideoUrl("/video/compressed/saddle-close.mp4")} type="video/mp4" />
       </video>
 
       {/* Elegant Dark Overlay */}

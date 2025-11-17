@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { getVideoUrl } from '@/lib/cloudinary-videos'
 import { useEffect, useRef } from 'react'
 
 export default function Chapter6Experience() {
@@ -64,7 +65,7 @@ export default function Chapter6Experience() {
           target.style.display = 'none'
         }}
       >
-        <source src="/video/compressed/jockey-running.mp4" type="video/mp4" />
+        <source src={getVideoUrl("/video/compressed/jockey-running.mp4")} type="video/mp4" />
       </video>
 
       {/* Elegant Dark Overlay */}

@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { getVideoUrl } from '@/lib/cloudinary-videos'
 import Image from 'next/image'
 import { useVoiceoverFilter } from '@/hooks/useVoiceoverFilter'
 import { useChapterAudio } from '@/hooks/useChapterAudio'
@@ -28,7 +29,7 @@ export default function Chapter1Intro() {
           target.style.display = 'none'
         }}
       >
-        <source src="/video/compressed/horse-hooves.mp4" type="video/mp4" />
+        <source src={getVideoUrl("/video/compressed/horse-hooves.mp4")} type="video/mp4" />
       </video>
 
       {/* Elegant Dark Overlay */}
