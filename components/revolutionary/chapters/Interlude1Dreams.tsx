@@ -34,6 +34,21 @@ export default function Interlude1Dreams() {
       ],
       mainCaption: 'La Nostra Visione',
       subCaption: 'Creare un centro di eccellenza equestre dove ogni cavaliere, dal principiante al professionista, possa crescere e realizzare i propri sogni.'
+    },
+    {
+      type: 'video-group' as const,
+      videos: [
+        {
+          src: 'https://res.cloudinary.com/duguvwfnc/video/upload/v1763413819/WhatsApp_Video_2025-11-17_at_11.17.11_hjue5y.mp4',
+          caption: 'La passione equestre'
+        },
+        {
+          src: 'https://res.cloudinary.com/duguvwfnc/video/upload/v1763413820/WhatsApp_Video_2025-11-17_at_11.17.12_z54bsm.mp4',
+          caption: 'Momenti di pura magia'
+        }
+      ],
+      mainCaption: 'L\'Esperienza Olgiata',
+      subCaption: 'Ogni giorno alle Scuderie Olgiata è un\'opportunità per vivere emozioni autentiche e creare ricordi indimenticabili.'
     }
   ];
 

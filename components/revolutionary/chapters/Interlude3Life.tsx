@@ -36,6 +36,21 @@ export default function Interlude3Life() {
       mainCaption: 'Attività Sportive e Ricreative',
       subCaption: 'Tennis, padel, calcio e molto altro: lo sport continua anche fuori dalla sella, per tutta la famiglia.',
       audioSrc: '/audio/Interlude_3_parte_3.mp3'
+    },
+    {
+      type: 'video-group' as const,
+      videos: [
+        {
+          src: 'https://res.cloudinary.com/duguvwfnc/video/upload/v1763413820/WhatsApp_Video_2025-11-17_at_11.17.14_1_rl0uac.mp4',
+          caption: 'Momenti di convivialità'
+        },
+        {
+          src: 'https://res.cloudinary.com/duguvwfnc/video/upload/v1763413819/WhatsApp_Video_2025-11-17_at_11.17.14_2_ecoyey.mp4',
+          caption: 'La vita al circolo'
+        }
+      ],
+      mainCaption: 'Una Comunità Unita',
+      subCaption: 'Alle Scuderie Olgiata non trovi solo servizi, ma una vera famiglia che condivide passioni, valori e momenti indimenticabili.'
     }
   ];
 

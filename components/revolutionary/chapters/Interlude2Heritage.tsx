@@ -34,6 +34,21 @@ export default function Interlude2Heritage() {
       ],
       mainCaption: 'Le Strutture di Addestramento',
       subCaption: 'Tondini coperti e scoperti per l\'allenamento professionale in ogni condizione.'
+    },
+    {
+      type: 'video-group' as const,
+      videos: [
+        {
+          src: 'https://res.cloudinary.com/duguvwfnc/video/upload/v1763413819/WhatsApp_Video_2025-11-17_at_11.17.12_1_gq2hd4.mp4',
+          caption: 'L\'eccellenza dell\'addestramento'
+        },
+        {
+          src: 'https://res.cloudinary.com/duguvwfnc/video/upload/v1763413819/WhatsApp_Video_2025-11-17_at_11.17.14_mmo9hq.mp4',
+          caption: 'Tradizione e innovazione'
+        }
+      ],
+      mainCaption: 'La Cura dei Dettagli',
+      subCaption: 'Ogni aspetto delle nostre strutture è pensato per garantire il massimo benessere e performance, nel rispetto della tradizione equestre.'
     }
   ];
 
