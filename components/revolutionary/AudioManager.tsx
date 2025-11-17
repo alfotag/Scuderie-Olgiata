@@ -33,14 +33,14 @@ export default function AudioManager() {
 
           // Crea gain node per controllare il volume
           gainNodeRef.current = audioContextRef.current.createGain()
-          gainNodeRef.current.gain.value = 0.22 // Volume base 22% (alzato leggermente per maggiore presenza)
+          gainNodeRef.current.gain.value = 0.35 // Volume base 35% (aumentato per maggiore presenza)
 
           // Collega: source -> lowpass filter -> gain -> destination
           sourceNodeRef.current.connect(lowpassFilterRef.current)
           lowpassFilterRef.current.connect(gainNodeRef.current)
           gainNodeRef.current.connect(audioContextRef.current.destination)
 
-          console.log('🎵 Web Audio API initialized with low-pass filter (800Hz) at 22% volume')
+          console.log('🎵 Web Audio API initialized with low-pass filter (800Hz) at 35% volume')
         }
 
         // Resume AudioContext se sospeso (requisito mobile)
@@ -51,7 +51,7 @@ export default function AudioManager() {
         bgMusicRef.current.play()
           .then(() => {
             setIsPlaying(true)
-            console.log('✅ Background music started at 22% volume with low-pass filter (Web Audio API)')
+            console.log('✅ Background music started at 35% volume with low-pass filter (Web Audio API)')
           })
           .catch(error => {
             console.log('❌ Background music autoplay prevented:', error)
@@ -84,7 +84,7 @@ export default function AudioManager() {
 
       // Abbassa la musica quando inizia la voce (ducking) - smooth transition
       const startGain = currentGain
-      const targetGain = 0.12 // 12% durante la voce (mantenendo proporzione con volume base 22%)
+      const targetGain = 0.18 // 18% durante la voce (mantenendo proporzione con volume base 35%)
       const duration = 300 // 300ms
       const steps = 20
       const stepTime = duration / steps
@@ -125,7 +125,7 @@ export default function AudioManager() {
 
       // Rialza la musica quando finisce la voce - smooth transition
       const startGain = currentGain
-      const targetGain = 0.22 // Torna al 22% (volume base alzato)
+      const targetGain = 0.35 // Torna al 35% (volume base aumentato)
       const duration = 300 // 300ms
       const steps = 20
       const stepTime = duration / steps
