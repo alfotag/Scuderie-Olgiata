@@ -329,8 +329,8 @@ async function sendNotificationToSecretary(record: AffiliationRecord) {
 
     const resend = getResendClient()
     const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'Scuderie Olgiata <noreply@scuderieolgiata.it>',
-      to: 'segreteria@scuderieolgiata.it',
+      from: process.env.EMAIL_FROM || 'Scuderie Olgiata <noreply@tagliamontestable.it>',
+      to: 'segreteria@tagliamontestable.it',
       subject: '[AFFILIAZIONE] Nuova richiesta - ' + record.nome + ' ' + record.cognome,
       html: emailHTML,
       attachments: attachments.length > 0 ? attachments : undefined,
@@ -453,7 +453,7 @@ async function sendConfirmationToAffiliate(record: AffiliationRecord) {
       <p><strong>Prossimi Passi:</strong><br>
       La nostra segreteria ti contatterà a breve per completare la procedura di affiliazione e fornirti tutte le informazioni necessarie sui nostri servizi.</p>
       <p style="margin-top: 15px;">Per qualsiasi domanda o chiarimento, non esitare a contattarci a:<br>
-      <strong>segreteria@scuderieolgiata.it</strong></p>
+      <strong>segreteria@tagliamontestable.it</strong></p>
     </div>
 
     <div class="footer">
@@ -462,7 +462,7 @@ async function sendConfirmationToAffiliate(record: AffiliationRecord) {
       Tel: +39 334 948 3071</p>
       <p style="margin-top: 15px; font-size: 11px; color: #999;">
       Questa è una email automatica. Si prega di non rispondere direttamente a questo messaggio.<br>
-      Per assistenza, contatta: segreteria@scuderieolgiata.it
+      Per assistenza, contatta: segreteria@tagliamontestable.it
       </p>
     </div>
   </div>
@@ -498,7 +498,7 @@ async function sendConfirmationToAffiliate(record: AffiliationRecord) {
 
     const resend = getResendClient()
     const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'Scuderie Olgiata <noreply@scuderieolgiata.it>',
+      from: process.env.EMAIL_FROM || 'Scuderie Olgiata <noreply@tagliamontestable.it>',
       to: record.email,
       subject: 'Conferma Affiliazione - Scuderie Olgiata',
       html: emailHTML,
