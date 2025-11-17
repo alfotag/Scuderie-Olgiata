@@ -42,7 +42,7 @@ export default function Chapter1Intro() {
       <div className="film-grain absolute inset-0 z-[3] opacity-30" />
 
       {/* Main Content */}
-      <div className="relative z-10 text-center px-2 sm:px-4 md:px-6 max-w-4xl mx-auto py-8 sm:py-12 overflow-hidden">
+      <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-3xl mx-auto py-8 sm:py-12 md:py-16 overflow-hidden">
         {/* Logo Ridotto */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -106,11 +106,11 @@ export default function Chapter1Intro() {
           transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="mb-4 sm:mb-6 px-2"
         >
-          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extralight tracking-tight leading-tight">
+          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-extralight tracking-tight leading-tight">
             <span className="block text-white/95 mb-1 sm:mb-2">
               C'ERA UNA VOLTA
             </span>
-            <span className="block text-white/50 text-lg sm:text-xl md:text-3xl lg:text-4xl font-thin italic">
+            <span className="block text-white/50 text-base sm:text-lg md:text-2xl lg:text-3xl font-thin italic">
               e c'è ancora
             </span>
           </h1>
@@ -131,10 +131,10 @@ export default function Chapter1Intro() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.4, delay: 1.6 }}
-          className="max-w-2xl mx-auto space-y-4 sm:space-y-6 text-xs sm:text-sm md:text-base text-white/70 leading-relaxed font-light px-2"
+          className="max-w-xl mx-auto space-y-3 sm:space-y-4 text-xs sm:text-sm text-white/70 leading-relaxed font-light px-2"
         >
           <p className="relative pl-4 sm:pl-6">
-            <span className="text-3xl sm:text-4xl md:text-5xl text-white/10 absolute left-0 top-0 font-serif">"</span>
+            <span className="text-2xl sm:text-3xl md:text-4xl text-white/10 absolute left-0 top-0 font-serif">"</span>
             C'era una volta, e c'è ancora, un luogo dove il tempo segue il ritmo degli zoccoli sulla terra. Ma le vere leggende non restano immobili – evolvono, si rinnovano. E tu sei qui, proprio nel momento in cui tutto sta per cambiare.
           </p>
 
@@ -145,7 +145,7 @@ export default function Chapter1Intro() {
             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
           </div>
 
-          <p className="text-white/50 text-xs md:text-sm italic">
+          <p className="text-white/50 text-xs sm:text-sm italic pb-4">
             Benvenuto nel cuore pulsante dell'equitazione romana, dove ogni cavaliere trova la sua strada.
           </p>
         </motion.div>
