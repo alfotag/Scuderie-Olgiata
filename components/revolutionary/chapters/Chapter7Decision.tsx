@@ -71,7 +71,7 @@ export default function Chapter7Decision() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="relative z-10 text-center px-2 sm:px-4 md:px-6 max-w-4xl mx-auto py-8 sm:py-12 overflow-hidden"
+            className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-3xl mx-auto py-8 sm:py-12 md:py-16 overflow-hidden"
           >
             {/* Top Decorative Line */}
             <motion.div
@@ -108,11 +108,11 @@ export default function Chapter7Decision() {
               transition={{ duration: 1.4, delay: 0.3 }}
               className="mb-10"
             >
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extralight tracking-tight leading-tight">
-                <span className="block text-white/95 mb-2">
+              <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-extralight tracking-tight leading-tight">
+                <span className="block text-white/95 mb-1 sm:mb-2">
                   FAR PARTE
                 </span>
-                <span className="block text-white/50 text-lg sm:text-xl md:text-3xl lg:text-4xl font-thin italic">
+                <span className="block text-white/50 text-base sm:text-lg md:text-2xl lg:text-3xl font-thin italic">
                   della famiglia
                 </span>
               </h2>
@@ -133,10 +133,10 @@ export default function Chapter7Decision() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 0.9 }}
-              className="max-w-2xl mx-auto space-y-4 sm:space-y-6 text-xs sm:text-sm md:text-base text-white/70 leading-relaxed font-light mb-12 px-2"
+              className="max-w-xl mx-auto space-y-3 sm:space-y-4 text-xs sm:text-sm text-white/70 leading-relaxed font-light mb-10 sm:mb-12 px-2"
             >
               <p className="relative pl-4 sm:pl-6">
-                <span className="text-3xl sm:text-4xl md:text-5xl text-white/10 absolute left-0 top-0 font-serif">"</span>
+                <span className="text-2xl sm:text-3xl md:text-4xl text-white/10 absolute left-0 top-0 font-serif">"</span>
                 Ora sai cosa significa L'Olgiata. Un luogo dove fermare il tempo, dimenticare tutto, condividere momenti che diventano ricordi eterni.
               </p>
 
@@ -147,7 +147,7 @@ export default function Chapter7Decision() {
                 <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
               </div>
 
-              <p className="text-amber-400/80 font-normal text-base md:text-lg">
+              <p className="text-amber-400/80 font-normal text-sm sm:text-base pb-2">
                 E ora stiamo invitando anche te a far parte della famiglia. A entrare in casa.
               </p>
             </motion.div>
